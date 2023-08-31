@@ -1,0 +1,51 @@
+<div class="hero_form_container">
+    <div class="hero_form">
+      <h2>Add Hero</h2>
+      <div class="input_group">
+        <i class="fa fa-user"></i>
+        <input
+          type="text"
+          placeholder="Hero Name"
+          class="input_text"
+          autocomplete="off"
+          #heroName
+        />
+      </div>
+      <div class="input_group">
+        <i class="fa fa-bolt"></i>
+        <input
+          type="text"
+          placeholder="Hero Power"
+          class="input_text"
+          autocomplete="off"
+          #heroPower
+        />
+      </div>
+      <div class="input_group">
+        <i class="fa fa-image"></i>
+        <input
+          type="text"
+          placeholder="Hero Image URL"
+          class="input_text"
+          autocomplete="off"
+          #heroImageUrl
+        />
+      </div>
+      <div class="input_group">
+        <i class="fa fa-info-circle"></i>
+        <input
+          type="text"
+          placeholder="Hero Description"
+          class="input_text"
+          autocomplete="off"
+          #heroDescription
+        />
+      </div>
+      <div class="button_group" id="add_hero_button">
+        <button type="button" class="add-button" (click)="addHero(heroName.value, heroPower.value, heroImageUrl.value, heroDescription.value); heroName.value=''; heroPower.value=''; heroImageUrl.value=''; heroDescription.value=''">
+          Add Hero
+        </button>
+        <button type="button" class="button button-first" (click)="goBack()">go back</button>
+      </div>
+    </div>
+  </div>

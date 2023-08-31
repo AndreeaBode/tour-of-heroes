@@ -1,22 +1,38 @@
-<h2>My Heroes</h2>
+<div class="back">
 
-<div>
-  <label for="new-hero">Hero name: </label>
-  <input id="new-hero" #heroName />
-
-  <!-- (click) passes input value to add() and then clears the input -->
-  <button type="button" class="add-button" (click)="add(heroName.value); heroName.value=''">
-    Add hero
-  </button>
-</div>
-
-<ul class="heroes">
-  <li *ngFor="let hero of heroes">
-    <a routerLink="/detail/{{hero.id}}">
-      <span class="badge">{{hero.id}}</span> {{hero.name}}
+  <div class="button_group">
+    <a routerLink="/hero-form" class="add-button">
+      Add hero
     </a>
-    <button type="button" class="delete" title="delete hero"
-      (click)="delete(hero)">x</button>
-  </li>
-</ul>
+  </div>
+  <h2>My Heroes</h2>
+  <div class="heroes-container">
+    <ul class="heroes">
+      <li *ngFor="let hero of heroes" class="hero-item">
+        <div class="hero-card">
+          <img [src]="hero.imageUrl" alt="Hero Image" class="hero-image" (click)="showHeroDetails(hero)" />
+          <div class="name-delete-container">
+            <p class="hero-id">{{hero.id}}</p>
+            <p class="hero-name">{{hero.name}}</p>
+            <button type="button" class="delete" title="delete hero" (click)="delete(hero)">x</button>
+          </div>
+        </div>
+      </li>
+    </ul>
+  </div>
 
+  <div class="hero-details" *ngIf="selectedHero">
+    <div class="hero-info">
+      <h2>{{selectedHero.name}}</h2>
+      <p><strong>Hero id:</strong> {{selectedHero.id}}</p>
+      <p><strong>Hero power:</strong> {{selectedHero.power}}</p>
+      <p><strong>Hero desccription:</strong> {{selectedHero.description}}</p>
+    </div>
+    <img [src]="selectedHero.imageUrl" alt="Selected Hero Image" class="selected-hero-image" />
+    <div class="button_group">
+      <a routerLink="/detail/{{selectedHero.id}}" class="add-button">
+       Edit hero
+      </a>
+    </div>
+  </div>
+</div>

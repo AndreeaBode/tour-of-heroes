@@ -1,10 +1,36 @@
-<div *ngIf="hero">
+<div *ngIf="hero" class="hero_form_container">
+  <div class="hero_form">
     <h2>{{hero.name | uppercase}} Details</h2>
     <div><span>id: </span>{{hero.id}}</div>
-    <div>
-      <label for="hero-name">Hero name: </label>
-      <input id="hero-name" [(ngModel)]="hero.name" placeholder="Hero name"/>
+
+    <div class="input_group">
+      <i class="fas fa-user"></i>
+      <label for="hero-name">Hero name:</label>
+      <input id="hero-name" class="input_text" [(ngModel)]="hero.name" placeholder="Hero name" />
     </div>
-    <button type="button" (click)="goBack()">go back</button>
-    <button type="button" (click)="save()">save</button>
+
+    <div class="input_group">
+      <i class="fas fa-bolt"></i>
+      <label for="hero-power">Hero power:</label>
+      <input id="hero-power" class="input_text" [(ngModel)]="hero.power" placeholder="Hero power" />
+    </div>
+
+    <div class="input_group">
+      <i class="fas fa-image"></i>
+      <label for="hero-imageUrl">Hero imageUrl:</label>
+      <input id="hero-imageUrl" class="input_text" [(ngModel)]="hero.imageUrl" placeholder="Hero imageUrl" />
+    </div>
+
+    <div class="input_description">
+      <i class="fas fa-file-alt"></i>
+      <label for="hero-description">Hero description:</label>
+      <textarea id="hero-description" class="input_text" [(ngModel)]="hero.description" placeholder="Hero description" style="height:140px"></textarea>
+    </div>
+    
+    
+    <div class="button_group">
+      <button type="button" class="button button-first" (click)="goBack()">go back</button>
+      <button type="button" class="save-button" (click)="save()">save</button>
+    </div>
   </div>
+</div>

@@ -1,29 +1,109 @@
+.hero_form_container {
+  display: flex;
+  justify-content: center;
+  padding: 15px;
+  align-items: center;
+  height: 89vh;
+  background: linear-gradient(to left, #00BFFF, #a445b2);
+  font-family: 'Open Sans', sans-serif;
+  color: #fff;
 
-label {
-  color: #435960;
-  font-weight: bold;
-}
+  .hero_form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 20px;
+    padding: 40px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
 
-input {
-  font-size: 1em;
-  padding: 0.5rem;
-}
+    .input_group {
+      display: flex;
+      align-items: center;
+      margin-top: 20px;
 
-button {
-  margin-top: 20px;
-  margin-right: 0.5rem;
-  background-color: #eee;
-  padding: 1rem;
-  border-radius: 4px;
-  font-size: 1rem;
+      i {
+        color: gray;
+        margin-right: 10px;
+      }
 
-  &:hover {
-    background-color: #cfd8dc;
-  }
+      label {
+        font-size: 16px;
+      }
 
-  &:disabled {
-    background-color: #eee;
-    color: #ccc;
-    cursor: auto;
+      .input_text {
+
+        padding: 12px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        box-sizing: border-box;
+        font-size: 16px;
+        background-color: #fff0f5;
+
+      }
+    }
+
+    .input_description {
+      margin-top: 20px;
+      display: flex;
+      width: 500px;
+      align-items: center;
+      margin-bottom: 15px;
+
+      i {
+        font-size: 20px;
+        margin-right: 10px;
+        color: #ccc;
+
+      }
+
+      label {
+        flex: 1;
+        font-weight: bold;
+        color: #f8f8f8;
+
+      }
+
+      .input_text {
+        font-family: 'Open Sans', sans-serif;
+        font-size: 16px;
+        flex: 10;
+        padding: 8px;
+
+        border: none;
+        border-bottom: 1px solid #ccc;
+        color: #fcf8f8;
+        background-color: transparent;
+        resize: vertical;
+        /* Permite redimensionarea verticală a câmpului */
+
+      }
+    }
+
+
+    .button_group {
+      margin-top: 10px;
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: center;
+
+      .add-button,
+      .save-button,
+      .button-first {
+        margin: 10px 0.25rem;
+        padding: 12px 24px;
+        background: linear-gradient(#a445b2, #00BFFF);
+        border: none;
+        border-radius: 24px;
+        color: #fff;
+
+        &:hover,
+        &:focus {
+          background: linear-gradient(#40E0D0, #02a0d4);
+          outline: none;
+        }
+      }
+    }
   }
 }

@@ -1,13 +1,19 @@
 using Microsoft.EntityFrameworkCore;
-using HeroAPI.Models;
+using HeroAPI.DataAccessLayer.Models;
+using HeroAPI.BusinessLogicLayer;
+using HeroAPI.DataAccesLayer.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
-builder.Services.AddDbContext<HeroContext>(opt =>
-    opt.UseInMemoryDatabase("TodoList"));
+builder.Services.AddDbContext<HeroContext>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.AddScoped<IHeroService, HeroService>(); 
+builder.Services.AddScoped<IHeroRepository, HeroRepository>(); 
+
 
 var app = builder.Build();
 

@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 
-namespace HeroAPI.Models
+
+namespace HeroAPI.DataAccessLayer.Models
 {
     public class HeroContext : DbContext
     {
@@ -10,5 +11,6 @@ namespace HeroAPI.Models
         }
 
         public DbSet<Hero> Heroes { get; set; } = null!;
+        public DbSet<User> Users { get; set; } = null!;
     }
 }

@@ -6,15 +6,15 @@ h2 {
 }
 
 .clear {
-  color: #333;
-  background-color: #eee;
-  margin-bottom: 12px;
-  padding: 1rem;
-  border-radius: 4px;
-  font-size: 1rem;
+  margin: 20px 0.5rem;
+  padding: 12px 24px;
+  background: linear-gradient(#a445b2, #00BFFF);
+  border: none;
+  border-radius: 24px;
+  color: #fff;
 
-  &:hover {
-    color: white;
-    background-color: #42545C;
+ &:hover, &:focus {
+    background: #40E0D0;
+    outline: none;
   }
 }

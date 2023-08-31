@@ -1,0 +1,63 @@
+.hero_form_container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 89vh;
+    background: linear-gradient(#a445b2, #00BFFF);
+    font-family: 'Open Sans', sans-serif;
+    color: #fff;
+  
+    .hero_form {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 20px;
+      padding: 40px;
+      box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+  
+      .input_group {
+        display: flex;
+        align-items: center;
+        margin-top: 20px;
+      }
+  
+      .input_group i {
+        color: gray;
+        margin-right: 10px;
+      }
+  
+      .input_text {
+        width: 100%;
+        padding: 12px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        box-sizing: border-box;
+        font-size: 16px;
+        background-color: #fff0f5;
+      }
+  
+      .button_group {
+        margin-top: 20px;
+        display: flex;
+        flex-direction: row; /* Ajustează direcția flexbox pentru a pune butoanele pe aceeași linie */
+        align-items: center;
+        justify-content: center; /* Ajustează alinierea pe orizontală pentru a centra butoanele */
+  
+        .add-button,
+        .button-first {
+          margin: 10px 0.25rem;
+          padding: 12px 24px;
+          background: linear-gradient(#a445b2, #00BFFF);
+          border: none;
+          border-radius: 24px;
+          color: #fff;
+  
+          &:hover, &:focus {
+            background:linear-gradient(#40E0D0, #02a0d4 );
+            outline: none;
+          }
+        }
+      }
+    }
+  }
