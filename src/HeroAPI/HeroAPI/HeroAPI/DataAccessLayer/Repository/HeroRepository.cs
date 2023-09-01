@@ -16,53 +16,73 @@ namespace HeroAPI.DataAccesLayer.Repositories
 
         public IEnumerable<Hero> GetAllHeroes()
         {
-            return _context.Heroes.ToList();
+            return _context
+                .Heroes
+                .ToList();
         }
 
-        public Hero GetHeroById(long id)
+        public Hero? GetHeroById(long id)
         {
-            return _context.Heroes.FirstOrDefault(hero => hero.Id == id);
+            return _context
+                .Heroes
+                .FirstOrDefault(hero => hero.Id == id);
         }
 
-        public void AddHero(Hero hero)
+        public async Task AddHeroAsync(Hero hero)
         {
-            _context.Heroes.Add(hero);
-            _context.SaveChanges();
+            _context
+                .Heroes
+                .Add(hero);
+
+            _context
+                .SaveChanges();
         }
 
-        public void UpdateHero(Hero hero)
-        {
-            using var transaction = _context.Database.BeginTransaction(); 
+        public async Task UpdateHeroAsync(Hero hero)
+        {     
             try
             {
-                var existingHero = _context.Heroes.Find(hero.Id);
-                if (existingHero != null)
+                var existingHero = _context.
+                    Heroes.
+                    Find(hero.Id);
+
+                if (existingHero == null)
                 {
-                    existingHero.Name = hero.Name;
-                    existingHero.Power = hero.Power;
-                    existingHero.Description = hero.Description;
-                    existingHero.ImageUrl = hero.ImageUrl;
-                    _context.SaveChanges();
+                    return;
                 }
 
-                transaction.Commit(); 
+                existingHero.Name = hero.Name;
+                existingHero.Power = hero.Power;
+                existingHero.Description = hero.Description;
+                existingHero.ImageUrl = hero.ImageUrl;
+
+                _context
+                    .SaveChanges();   
             }
-            catch
+            catch (Exception ex)
             {
-                transaction.Rollback(); 
-                throw;
+                throw new InvalidOperationException("Failed to update hero.", ex);
             }
         }
 
 
-        public void DeleteHero(long id)
+        public async Task DeleteHeroAsync(long id)
         {
-            var heroToRemove = _context.Heroes.Find(id);
+            var heroToRemove = _context
+                .Heroes
+                .Find(id);
+
             if (heroToRemove != null)
             {
-                _context.Heroes.Remove(heroToRemove);
-                _context.SaveChanges();
+                _context
+                    .Heroes
+                    .Remove(heroToRemove);
+
+                 _context
+                    .SaveChanges();
             }
         }
+
+        
     }
 }

@@ -4,8 +4,12 @@ namespace HeroAPI.BusinessLogicLayer
 {
     public interface IUserService
     {
-        Task<User> RegisterAsync(Register model);
+        Task<User?> RegisterAsync(Register model);
         Task<User> LoginAsync(Login model);
-        string GenerateJwtToken(User user, string key, string issuer);
+        string GenerateJwtToken(
+            User user, 
+            string key, 
+            string issuer
+            );
     }
 }

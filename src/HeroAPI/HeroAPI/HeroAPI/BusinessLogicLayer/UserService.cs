@@ -6,27 +6,28 @@ using HeroAPI.DataAccessLayer.Models;
 using HeroAPI.DataAccessLayer.Repository;
 using Microsoft.IdentityModel.Tokens;
 using BCrypt.Net;
+using System.Security.Cryptography;
+using Microsoft.AspNetCore.Cryptography.KeyDerivation;
+using System.Security.Authentication;
 
 namespace HeroAPI.BusinessLogicLayer
 {
     public class UserService : IUserService
     {
-        private readonly IUserRepository _userRepository; 
+        private readonly IUserRepository _userRepository;
         private readonly IConfiguration _configuration;
 
-        public UserService(IUserRepository userRepository, IConfiguration configuration)
+        public UserService(
+            IUserRepository userRepository,
+            IConfiguration configuration
+            )
         {
             _userRepository = userRepository;
             _configuration = configuration;
         }
 
-        public async Task<User> RegisterAsync(Register model)
+        public async Task<User?> RegisterAsync(Register model)
         {
-            if (model.Password != model.ConfirmedPassword)
-            {
-                throw new Exception("Passwords do not match.");
-            }
-
             var existingUser = await _userRepository.GetUserByEmailAsync(model.Email);
 
             if (existingUser != null)
@@ -34,10 +35,17 @@ namespace HeroAPI.BusinessLogicLayer
                 throw new Exception("A user with this email already exists.");
             }
 
+            if (model.Password != model.ConfirmedPassword)
+            {
+                throw new Exception("Passwords do not match.");
+            }
+
             var user = new User
             {
+                Name = "Mari",
                 Email = model.Email,
-                Password = HashPassword(model.Password) 
+                Password = HashPassword(model.Password),
+                IDHero = 24
             };
 
             await _userRepository.AddUserAsync(user);
@@ -45,26 +53,42 @@ namespace HeroAPI.BusinessLogicLayer
             return user;
         }
 
+
         private string HashPassword(string password)
         {
-            return BCrypt.Net.BCrypt.HashPassword(password);
+            byte[] salt = { 0x1, 0x45, 0x14, 0x98, 0x15, 0x23, 0x90, 0x33, 0x4, 0x6, 0x2, 0x36, 0x78, 0x23 };
+
+            string hashed = Convert.ToBase64String(KeyDerivation.Pbkdf2(
+            password: password!,
+            salt: salt,
+            prf: KeyDerivationPrf.HMACSHA256,
+            iterationCount: 100000,
+            numBytesRequested: 256 / 8));
+
+            string saltedHashedPassword = $"{Convert.ToBase64String(salt)}${hashed}";
+
+            return saltedHashedPassword;
         }
 
         public async Task<User> LoginAsync(Login model)
         {
-            
+
             var user = await _userRepository.GetUserByEmailAsync(model.Email);
 
-            
+
             if (user != null && VerifyPassword(model.Password, user.Password))
             {
                 return user;
             }
 
-            return null;
+            throw new AuthenticationException("Authentication failed. Invalid email or password.");
         }
 
-        public string GenerateJwtToken(User user, string key, string issuer)
+        public string GenerateJwtToken(
+            User user,
+            string key, 
+            string issuer
+            )
         {
             var claims = new[]
             {
@@ -91,10 +115,18 @@ namespace HeroAPI.BusinessLogicLayer
             return tokenHandler.WriteToken(token);
         }
 
-        
-        private bool VerifyPassword(string password, string hashedPassword)
+
+        private bool VerifyPassword(
+            string password,
+            string hashedPassword
+            )
         {
-            return password == hashedPassword;
+            if (HashPassword(password) == hashedPassword)
+            {
+                return true;
+            }
+
+            return false;
         }
     }
 }

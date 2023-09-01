@@ -7,8 +7,8 @@ namespace HeroAPI.DataAccesLayer.Repositories
     {
         IEnumerable<Hero> GetAllHeroes();
         Hero GetHeroById(long id);
-        void AddHero(Hero hero);
-        void UpdateHero(Hero hero);
-        void DeleteHero(long id);
+        Task AddHeroAsync(Hero hero);
+        Task UpdateHeroAsync(Hero hero);
+        Task DeleteHeroAsync(long id);
     }
 }

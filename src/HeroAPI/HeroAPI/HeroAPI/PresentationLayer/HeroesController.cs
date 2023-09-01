@@ -55,7 +55,7 @@ namespace HeroAPI.PresentationLayer
                 return NotFound();
             }
 
-            return NoContent();
+            return Ok(updatedHero);
         }
 
         [HttpDelete("{id}")]

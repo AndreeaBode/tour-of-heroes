@@ -2,6 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using HeroAPI.DataAccessLayer.Models;
 using HeroAPI.BusinessLogicLayer;
 using HeroAPI.DataAccesLayer.Repositories;
+using HeroAPI.DataAccessLayer.Repository;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -12,7 +13,9 @@ builder.Services.AddDbContext<HeroContext>(options =>
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddScoped<IHeroService, HeroService>(); 
+builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IHeroRepository, HeroRepository>(); 
+builder.Services.AddScoped<IUserRepository, UserRepository>();
 
 
 var app = builder.Build();

@@ -15,14 +15,20 @@ namespace HeroAPI.DataAccesLayer.Repositories
 
         public async Task<User> AddUserAsync(User user)
         {
-            _context.Users.Add(user);
-            await _context.SaveChangesAsync();
+            _context
+                .Users
+                .Add(user);  
+            await _context
+                .SaveChangesAsync();
+
             return user;
         }
 
-        public async Task<User> GetUserByEmailAsync(string email)
+        public async Task<User?> GetUserByEmailAsync(string email)
         {
-            return await _context.Users.FirstOrDefaultAsync(x => x.Email == email);
+            return await _context.
+                Users.
+                FirstOrDefaultAsync(x => x.Email == email);
         }
     }
 }

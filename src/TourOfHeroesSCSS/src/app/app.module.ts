@@ -20,6 +20,7 @@ import { HeroLoginComponent } from './hero-login/hero-login.component';
     FormsModule,
     AppRoutingModule,
     HttpClientModule,
+
   ],
   declarations: [
     AppComponent,
@@ -31,6 +32,7 @@ import { HeroLoginComponent } from './hero-login/hero-login.component';
     HeroFormComponent,
     HeroLoginComponent
   ],
+  providers: [],
   bootstrap: [ AppComponent ]
 })
 export class AppModule { }

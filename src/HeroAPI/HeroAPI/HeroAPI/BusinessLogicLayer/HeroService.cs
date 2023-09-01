@@ -25,19 +25,19 @@ namespace HeroAPI.BusinessLogicLayer
 
         public Hero CreateHero(Hero hero)
         {
-            _repository.AddHero(hero);
+            _repository.AddHeroAsync(hero);
             return hero;
         }
 
         public Hero UpdateHero(Hero hero)
         {
-            _repository.UpdateHero(hero);
+            _repository.UpdateHeroAsync(hero);
             return hero;
         }
 
         public bool DeleteHero(long id)
         {
-            _repository.DeleteHero(id);
+            _repository.DeleteHeroAsync(id);
             return true;
         }
     }
