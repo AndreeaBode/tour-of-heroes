@@ -6,8 +6,15 @@
     <a routerLink="/dashboard" class="nav-link">Dashboard</a>
     <span class="nav-divider"></span>
     <a routerLink="/heroes" class="nav-link">Heroes</a>
-    <a routerLink="/hero-login" class="nav-link">Login</a>
+    <ng-container *ngIf="authService.isLoggedIn(); else loggedOutTemplate">
+      <button (click)="onLogout()" class="nav-link btn-style">Logout</button>
+    </ng-container>
+    <ng-template #loggedOutTemplate>
+      <a routerLink="/hero-login" class="nav-link">Login</a>
+    </ng-template>
   </div>
 </div>
 <router-outlet></router-outlet>
 <app-messages></app-messages>
+
+

@@ -6,7 +6,7 @@
         </div>
         <div class="slide-controls">
             <button class="button login" [class.active]="authType === 'login'" (click)="setAuthType('login')">Login</button>
-            <button class="button signup" [class.active]="authType === 'signup'" (click)="setAuthType('signup')">Signup</button>
+            <button class="button signup" [class.active]="authType === 'signup'" (click)="setAuthType('signup')">Sign up</button>
         </div>
 
         <div class="form-inner">
@@ -17,12 +17,16 @@
                 <div class="field">
                     <input type="password" placeholder="Password" [(ngModel)]="password" required>
                 </div>
+                <!--<div class="signup-link">
+                    Not a member? <a routerLink="/signup" class="add-button">Sign up now</a>
+                  </div>--> 
                 <div class="pass-link"><a href="#">Forgot password?</a></div>
                 <div class="field btn">
                     <div class="btn-layer"></div>
                     <button (click)="onLogin()" [routerLink]="['/heroes']">Login</button>
+                   
                 </div>
-                <div class="signup-link">Not a member? <a routerLink="/hero-form" class="add-button">Signup now</a></div>
+                
             </div>
             
             <div *ngIf="authType === 'signup'">
@@ -37,7 +41,7 @@
                 </div>
                 <div class="field btn">
                     <div class="btn-layer"></div>
-                    <button (click)="onSignup()" >Signup</button>
+                    <button (click)="onSignup()" >Sign up</button>
                 </div>
             </div> 
         </div>

@@ -14,7 +14,7 @@
           <div class="name-delete-container">
             <p class="hero-id">{{hero.id}}</p>
             <p class="hero-name">{{hero.name}}</p>
-            <button type="button" class="delete" title="delete hero" (click)="delete(hero)">x</button>
+            <button *ngIf="isLoggedIn()" type="button" class="delete" title="delete hero" (click)="delete(hero)">x</button>
           </div>
         </div>
       </li>

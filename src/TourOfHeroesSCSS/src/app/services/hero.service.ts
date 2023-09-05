@@ -56,16 +56,25 @@ export class HeroService {
   /* GET heroes whose name contains search term */
   searchHeroes(term: string): Observable<Hero[]> {
     if (!term.trim()) {
-      // if not search term, return empty hero array.
+      // Dacă termenul de căutare este gol, returnați un tablou gol de eroi.
       return of([]);
     }
-    return this.http.get<Hero[]>(`${this.heroesUrl}/?name=${term}`).pipe(
-      tap(x => x.length ?
-         this.log(`found heroes matching "${term}"`) :
-         this.log(`no heroes matching "${term}"`)),
+    
+    term = term.toLowerCase(); 
+  
+    return this.http.get<Hero[]>(this.heroesUrl).pipe(
+      map(heroes => heroes.filter(hero => hero.name.toLowerCase().includes(term))), 
+      tap(filteredHeroes => {
+        if (filteredHeroes.length) {
+          this.log(`found heroes matching "${term}"`);
+        } else {
+          this.log(`no heroes matching "${term}"`);
+        }
+      }),
       catchError(this.handleError<Hero[]>('searchHeroes', []))
     );
   }
+  
 
   //////// Save methods //////////
 

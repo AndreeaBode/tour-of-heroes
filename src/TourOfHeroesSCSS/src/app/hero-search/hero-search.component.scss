@@ -26,23 +26,25 @@
   }
 
   li {
+    margin-top:20px;
+    align-items: center;
+    margin-right: 50px;
     list-style-type: none;
 
-    .search-result li a {
-      border-bottom: 1px solid gray;
-      border-left: 1px solid gray;
-      border-right: 1px solid gray;
-      display: inline-block;
-      width: 100%;
-      max-width: 600px;
-      padding: 0.5rem;
-      box-sizing: border-box;
+    a {
+      margin: 10px 0.25rem;
+      margin-bottom: 200px;
+      padding: 12px 24px;
+      background: linear-gradient(#a445b2, #00BFFF);
+      border: none;
+      border-radius: 24px;
+      color: #fff;
       text-decoration: none;
-      color: black;
 
-      &:hover {
-        background-color: #435A60;
-        color: white;
+      &:hover,
+      &:focus {
+        background: linear-gradient(#40E0D0, #02a0d4);
+        outline: none;
       }
     }
 

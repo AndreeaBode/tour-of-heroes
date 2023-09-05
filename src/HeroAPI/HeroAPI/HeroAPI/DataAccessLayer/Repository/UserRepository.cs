@@ -4,6 +4,9 @@ using HeroAPI.DataAccessLayer.Repository;
 
 namespace HeroAPI.DataAccesLayer.Repositories
 {
+    /// <summary>
+    /// Repository class responsible for database operations related to User entities.
+    /// </summary>
     public class UserRepository : IUserRepository
     {
         private readonly HeroContext _context;
@@ -13,6 +16,11 @@ namespace HeroAPI.DataAccesLayer.Repositories
             _context = context;
         }
 
+        /// <summary>
+        /// Adds a new user to the database asynchronously.
+        /// </summary>
+        /// <param name="user">The user entity to add.</param>
+        /// <returns>The added user.</returns>
         public async Task<User> AddUserAsync(User user)
         {
             _context
@@ -24,6 +32,11 @@ namespace HeroAPI.DataAccesLayer.Repositories
             return user;
         }
 
+        /// <summary>
+        /// Retrieves a user by their email address from the database asynchronously.
+        /// </summary>
+        /// <param name="email">The email address of the user to retrieve.</param>
+        /// <returns>The user with the specified email address, if found; otherwise, null.</returns>
         public async Task<User?> GetUserByEmailAsync(string email)
         {
             return await _context.

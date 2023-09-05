@@ -3,6 +3,7 @@ import { Subscription } from 'rxjs';
 import { Location } from '@angular/common';
 import { Hero } from '../hero';
 import { HeroService } from '../services/hero.service';
+import { AuthService } from '../auth.service';
 
 @Component({
   selector: 'app-heroes',
@@ -17,7 +18,8 @@ export class HeroesComponent implements OnInit, OnDestroy {
   isImageClicked = false;
 
   constructor(private heroService: HeroService,
-    private location: Location) { }
+    private location: Location,
+    private authService: AuthService) { }
 
     ngOnInit(): void {
       this.getHeroes();
@@ -67,16 +69,13 @@ export class HeroesComponent implements OnInit, OnDestroy {
     const heroIdToDelete = hero.id;
     this.heroes = this.heroes.filter(h => h !== hero);
 
-    this.unsubscribe(); // Dezabonăm observabilul curent
+    this.unsubscribe(); 
 
     this.heroService.deleteHero(heroIdToDelete).subscribe(
-      () => {
-        // Acțiunea de ștergere a fost realizată cu succes
+      () => {  
       },
       error => {
-        // Tratarea erorilor în cazul în care ștergerea a eșuat
         console.error('Error deleting hero:', error);
-        // Revenim la starea inițială a listei de eroi
         this.getHeroes();
       }
     );
@@ -104,5 +103,8 @@ export class HeroesComponent implements OnInit, OnDestroy {
       this.isImageClicked = false;
     }
   }
-  
+
+  isLoggedIn(): boolean {
+    return this.authService.isLoggedIn();
+  }
 }

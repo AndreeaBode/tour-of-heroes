@@ -10,7 +10,11 @@ import { Location } from '@angular/common';
   styleUrls: ['./hero-form.component.scss']
 })
 export class HeroFormComponent  implements OnDestroy {
+  selectedPower: string = ''; 
+  heroPower: string = ''; 
+  
   private destroy$ = new Subject<void>();
+  
   constructor(private heroService: HeroService,
     private location: Location) {}
 

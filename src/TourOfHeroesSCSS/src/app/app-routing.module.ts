@@ -5,13 +5,14 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 import { HeroDetailComponent } from './hero-detail/hero-detail.component';
 import { HeroFormComponent } from './hero-form/hero-form.component';
 import { HeroLoginComponent } from './hero-login/hero-login.component';
+import { AuthGuard } from './auth.guard';
 
 const routes: Routes = [
   { path: 'heroes', component: HeroesComponent },
-  { path: 'dashboard', component: DashboardComponent },
+  { path: 'dashboard', component: DashboardComponent, canActivate: [AuthGuard] },
   { path: '', redirectTo: '/dashboard', pathMatch: 'full' },
-  { path: 'detail/:id', component: HeroDetailComponent },
-  { path: 'hero-form', component: HeroFormComponent},
+  { path: 'detail/:id', component: HeroDetailComponent, canActivate: [AuthGuard] },
+  { path: 'hero-form', component: HeroFormComponent, canActivate: [AuthGuard]},
   { path: 'hero-login', component: HeroLoginComponent}
 ];
 

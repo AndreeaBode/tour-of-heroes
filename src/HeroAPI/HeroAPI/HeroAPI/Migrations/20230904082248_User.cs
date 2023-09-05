@@ -5,7 +5,7 @@
 namespace HeroAPI.Migrations
 {
     /// <inheritdoc />
-    public partial class user : Migration
+    public partial class User : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -19,7 +19,7 @@ namespace HeroAPI.Migrations
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Email = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Password = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    IDHero = table.Column<int>(type: "int", nullable: false)
+                    HeroId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {

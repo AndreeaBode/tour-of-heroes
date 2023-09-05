@@ -5,6 +5,9 @@ using HeroAPI.DataAccessLayer.Models;
 
 namespace HeroAPI.DataAccesLayer.Repositories
 {
+    /// <summary>
+    /// Repository class responsible for database operations related to Hero entities.
+    /// </summary>
     public class HeroRepository : IHeroRepository
     {
         private readonly HeroContext _context;
@@ -14,6 +17,10 @@ namespace HeroAPI.DataAccesLayer.Repositories
             _context = context;
         }
 
+        /// <summary>
+        /// Retrieves a collection of all heroes from the database.
+        /// </summary>
+        /// <returns>An enumerable collection of heroes.</returns>
         public IEnumerable<Hero> GetAllHeroes()
         {
             return _context
@@ -21,6 +28,11 @@ namespace HeroAPI.DataAccesLayer.Repositories
                 .ToList();
         }
 
+        /// <summary>
+        /// Retrieves a specific hero by its unique identifier from the database.
+        /// </summary>
+        /// <param name="id">The unique identifier of the hero.</param>
+        /// <returns>The hero with the specified identifier.</returns>
         public Hero? GetHeroById(long id)
         {
             return _context
@@ -28,6 +40,10 @@ namespace HeroAPI.DataAccesLayer.Repositories
                 .FirstOrDefault(hero => hero.Id == id);
         }
 
+        /// <summary>
+        /// Adds a new hero to the database asynchronously.
+        /// </summary>
+        /// <param name="hero">The hero entity to add.</param>
         public async Task AddHeroAsync(Hero hero)
         {
             _context
@@ -38,6 +54,10 @@ namespace HeroAPI.DataAccesLayer.Repositories
                 .SaveChanges();
         }
 
+        /// <summary>
+        /// Updates an existing hero in the database asynchronously.
+        /// </summary>
+        /// <param name="hero">The updated hero entity.</param>
         public async Task UpdateHeroAsync(Hero hero)
         {     
             try
@@ -65,7 +85,10 @@ namespace HeroAPI.DataAccesLayer.Repositories
             }
         }
 
-
+        /// <summary>
+        /// Deletes a hero from the database asynchronously by its unique identifier.
+        /// </summary>
+        /// <param name="id">The unique identifier of the hero to delete.</param>
         public async Task DeleteHeroAsync(long id)
         {
             var heroToRemove = _context

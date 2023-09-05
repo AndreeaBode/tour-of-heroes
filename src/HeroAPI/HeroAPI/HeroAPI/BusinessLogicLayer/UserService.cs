@@ -9,9 +9,13 @@ using BCrypt.Net;
 using System.Security.Cryptography;
 using Microsoft.AspNetCore.Cryptography.KeyDerivation;
 using System.Security.Authentication;
+using HeroAPI.BusinessLogicLayer.DTOs;
 
 namespace HeroAPI.BusinessLogicLayer
 {
+    /// <summary>
+    /// Service class responsible for user-related operations such as registration, login, and JWT token generation.
+    /// </summary>
     public class UserService : IUserService
     {
         private readonly IUserRepository _userRepository;
@@ -26,7 +30,12 @@ namespace HeroAPI.BusinessLogicLayer
             _configuration = configuration;
         }
 
-        public async Task<User?> RegisterAsync(Register model)
+        /// <summary>
+        /// Registers a new user with the provided registration data.
+        /// </summary>
+        /// <param name="model">The registration data.</param>
+        /// <returns>The registered user, or null if registration fails.</returns>
+        public async Task<User?> RegisterAsync(RegisterDTO model)
         {
             var existingUser = await _userRepository.GetUserByEmailAsync(model.Email);
 
@@ -40,12 +49,15 @@ namespace HeroAPI.BusinessLogicLayer
                 throw new Exception("Passwords do not match.");
             }
 
+            string[] emailParts = model.Email.Split('@');
+            string name = emailParts[0];
+
             var user = new User
             {
-                Name = "Mari",
+                Name = name,
                 Email = model.Email,
                 Password = HashPassword(model.Password),
-                IDHero = 24
+                HeroId = 24
             };
 
             await _userRepository.AddUserAsync(user);
@@ -53,7 +65,11 @@ namespace HeroAPI.BusinessLogicLayer
             return user;
         }
 
-
+        /// <summary>
+        /// Hashes a password using a secure algorithm.
+        /// </summary>
+        /// <param name="password">The password to hash.</param>
+        /// <returns>The salted and hashed password.</returns>
         private string HashPassword(string password)
         {
             byte[] salt = { 0x1, 0x45, 0x14, 0x98, 0x15, 0x23, 0x90, 0x33, 0x4, 0x6, 0x2, 0x36, 0x78, 0x23 };
@@ -70,7 +86,12 @@ namespace HeroAPI.BusinessLogicLayer
             return saltedHashedPassword;
         }
 
-        public async Task<User> LoginAsync(Login model)
+        /// <summary>
+        /// Authenticates a user with the provided login data.
+        /// </summary>
+        /// <param name="model">The login data.</param>
+        /// <returns>The authenticated user, or null if authentication fails.</returns>
+        public async Task<User> LoginAsync(LoginDTO model)
         {
 
             var user = await _userRepository.GetUserByEmailAsync(model.Email);
@@ -84,6 +105,13 @@ namespace HeroAPI.BusinessLogicLayer
             throw new AuthenticationException("Authentication failed. Invalid email or password.");
         }
 
+        /// <summary>
+        /// Generates a JWT token for a user with the specified claims.
+        /// </summary>
+        /// <param name="user">The user for whom to generate the token.</param>
+        /// <param name="key">The JWT signing key.</param>
+        /// <param name="issuer">The token issuer.</param>
+        /// <returns>The generated JWT token.</returns>
         public string GenerateJwtToken(
             User user,
             string key, 
@@ -115,7 +143,12 @@ namespace HeroAPI.BusinessLogicLayer
             return tokenHandler.WriteToken(token);
         }
 
-
+        /// <summary>
+        /// Verifies a password against a hashed password.
+        /// </summary>
+        /// <param name="password">The password to verify.</param>
+        /// <param name="hashedPassword">The salted and hashed password to compare against.</param>
+        /// <returns>True if the password is verified, otherwise false.</returns>
         private bool VerifyPassword(
             string password,
             string hashedPassword
