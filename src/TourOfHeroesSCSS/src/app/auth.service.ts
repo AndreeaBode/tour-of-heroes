@@ -18,4 +18,9 @@ export class AuthService {
     return !!localStorage.getItem('jwtToken');
   }
 
+  getToken(): string | null {
+    return localStorage.getItem('jwtToken');
+  }
+  
+
 }

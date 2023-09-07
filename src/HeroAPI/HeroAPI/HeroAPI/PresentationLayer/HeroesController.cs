@@ -52,7 +52,7 @@ namespace HeroAPI.PresentationLayer
         /// </summary>
         /// <param name="hero">The hero entity to create.</param>
         /// <returns>An HTTP response indicating success and the created hero.</returns>
-        //[Authorize(Policy = "RequireLoggedIn")]
+        [Authorize(Policy = "RequireLoggedIn")]
         [HttpPost]
         public IActionResult CreateHero(Hero hero)
         {

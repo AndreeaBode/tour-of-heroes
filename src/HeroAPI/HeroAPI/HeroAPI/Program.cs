@@ -3,8 +3,9 @@ using HeroAPI.DataAccessLayer.Models;
 using HeroAPI.BusinessLogicLayer;
 using HeroAPI.DataAccesLayer.Repositories;
 using HeroAPI.DataAccessLayer.Repository;
-using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -14,13 +15,26 @@ builder.Services.AddDbContext<HeroContext>(options =>
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-builder.Services.AddScoped<IHeroService, HeroService>(); 
+builder.Services.AddScoped<IHeroService, HeroService>();
 builder.Services.AddScoped<IUserService, UserService>();
-builder.Services.AddScoped<IHeroRepository, HeroRepository>(); 
+builder.Services.AddScoped<IHeroRepository, HeroRepository>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
+
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-    .AddJwtBearer(JwtBearerDefaults.AuthenticationScheme,
-        options => builder.Configuration.Bind("JwtSettings", options));
+    .AddJwtBearer(options =>
+    {
+        options.TokenValidationParameters = new TokenValidationParameters
+        {
+            ValidateIssuer = true,
+            ValidateAudience = false,
+            ValidateLifetime = true,
+            ValidateIssuerSigningKey = true,
+            ValidIssuer = builder.Configuration["JWT:Issuer"],
+            ValidAudience = builder.Configuration["JWT:Issuer"],
+            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["JWT:Key"]))
+        };
+    });
+
 
 builder.Services.AddAuthorization(options =>
 {
@@ -29,6 +43,8 @@ builder.Services.AddAuthorization(options =>
         policy.RequireAuthenticatedUser();
     });
 });
+
+builder.Services.AddMvc();
 
 
 var app = builder.Build();
@@ -44,17 +60,18 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-app.UseAuthentication();
-app.UseRouting();
-app.UseAuthorization();
+
+app.UseAuthentication(); 
+
+app.UseRouting(); 
+
+app.UseAuthorization();  
+
 app.UseEndpoints(endpoints =>
 {
     endpoints.MapControllers();
 });
+
 app.MapControllers();
-
-
-
-
 
 app.Run();

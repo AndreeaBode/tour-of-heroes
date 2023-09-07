@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule } from '@angular/forms';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 
 import { AppRoutingModule } from './app-routing.module';
 
@@ -13,6 +13,8 @@ import { HeroSearchComponent } from './hero-search/hero-search.component';
 import { MessagesComponent } from './messages/messages.component';
 import { HeroFormComponent } from './hero-form/hero-form.component';
 import { HeroLoginComponent } from './hero-login/hero-login.component';
+import { TokenInterceptor } from './token-interceptor'; 
+
 
 @NgModule({
   imports: [
@@ -32,7 +34,13 @@ import { HeroLoginComponent } from './hero-login/hero-login.component';
     HeroFormComponent,
     HeroLoginComponent
   ],
-  providers: [],
+  providers: [
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: TokenInterceptor,
+      multi: true,
+    },
+  ],
   bootstrap: [ AppComponent ]
 })
 export class AppModule { }

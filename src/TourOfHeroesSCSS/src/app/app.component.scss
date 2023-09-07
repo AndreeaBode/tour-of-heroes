@@ -3,11 +3,10 @@
   align-items: center;
   justify-content: space-between;
   padding: 10px;
-  background: linear-gradient(#00BFFF,#a445b2 ); 
-  color: white; 
-  box-shadow: 0 4px 6px rgba(110, 105, 105, 0.1);
-  height: 40px;
-  margin: 0 auto;
+  background: linear-gradient(#00BFFF, #a445b2);
+  color: white;
+  backdrop-filter: blur(60px); 
+  -webkit-backdrop-filter: blur(60px);
 
   .navbar-left {
     flex: 1;

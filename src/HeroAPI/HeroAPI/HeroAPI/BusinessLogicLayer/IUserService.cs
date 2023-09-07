@@ -32,7 +32,8 @@ namespace HeroAPI.BusinessLogicLayer
         string GenerateJwtToken(
             User user,
             string key,
-            string issuer
+            string issuer,
+            string audience
             );
     }
 }

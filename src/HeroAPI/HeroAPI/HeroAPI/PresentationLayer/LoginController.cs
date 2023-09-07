@@ -4,12 +4,15 @@ using HeroAPI.DataAccessLayer.Models;
 using Microsoft.Extensions.Configuration;
 using System.Threading.Tasks;
 using HeroAPI.BusinessLogicLayer.DTOs;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 
 namespace HeroAPI.PresentationLayer
 {
     /// <summary>
     /// Controller responsible for user authentication and registration operations.
     /// </summary>
+    /// 
     public class LoginController : ControllerBase
     {
         private readonly IUserService _userService;
@@ -42,8 +45,9 @@ namespace HeroAPI.PresentationLayer
 
             var token = _userService.GenerateJwtToken(
                 user,
-                _configuration["Jwt:Key"], 
-                _configuration["Jwt:Issuer"]);
+                _configuration["JWT:Key"], 
+                _configuration["JWT:Issuer"],
+                _configuration["JWT:Audience"]);
 
             var tokenResponse = new LoginResponseDTO
             {
@@ -77,8 +81,9 @@ namespace HeroAPI.PresentationLayer
             var token = _userService.
                 GenerateJwtToken(
                 user,
-                _configuration["Jwt:Key"], 
-                _configuration["Jwt:Issuer"]);
+                _configuration["JWT:Key"], 
+                _configuration["JWT:Issuer"],
+                _configuration["JWT:Audience"]);
 
             var tokenResponse = new LoginResponseDTO
             {

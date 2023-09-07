@@ -10,6 +10,7 @@ using System.Security.Cryptography;
 using Microsoft.AspNetCore.Cryptography.KeyDerivation;
 using System.Security.Authentication;
 using HeroAPI.BusinessLogicLayer.DTOs;
+using NuGet.Common;
 
 namespace HeroAPI.BusinessLogicLayer
 {
@@ -113,35 +114,37 @@ namespace HeroAPI.BusinessLogicLayer
         /// <param name="issuer">The token issuer.</param>
         /// <returns>The generated JWT token.</returns>
         public string GenerateJwtToken(
-            User user,
-            string key, 
-            string issuer
-            )
+                User user,
+                string key,
+                string issuer,
+                string audience)
         {
             var claims = new[]
             {
                 new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
-                new Claim(ClaimTypes.Email, user.Email)
+                new Claim("Mail", user.Email)
             };
 
             var keyBytes = Encoding.UTF8.GetBytes(key);
             var keyCredentials = new SymmetricSecurityKey(keyBytes);
             var signInCredentials = new SigningCredentials(keyCredentials, SecurityAlgorithms.HmacSha256);
 
-            var tokenDescriptor = new SecurityTokenDescriptor
-            {
-                Subject = new ClaimsIdentity(claims),
-                Expires = DateTime.UtcNow.AddDays(7),
-                SigningCredentials = signInCredentials,
-                Issuer = issuer,
-                Audience = issuer
-            };
+            var token = new JwtSecurityToken(
+                issuer: issuer,
+                audience: audience, // Set the audience here
+                claims: claims,
+                expires: DateTime.UtcNow.AddDays(7),
+                signingCredentials: signInCredentials
+            );
 
-            var tokenHandler = new JwtSecurityTokenHandler();
-            var token = tokenHandler.CreateToken(tokenDescriptor);
+            //var tokenHandler = new JwtSecurityTokenHandler();
+            //var token = tokenHandler.CreateToken(tokenDescriptor);
 
-            return tokenHandler.WriteToken(token);
+            string tokenAsString = new JwtSecurityTokenHandler().WriteToken(token);
+
+            return tokenAsString;
         }
+
 
         /// <summary>
         /// Verifies a password against a hashed password.
