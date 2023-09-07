@@ -21,7 +21,7 @@ namespace HeroAPI.DataAccessLayer.Models
         /// <summary>
         /// Gets or sets the power or abilities of the hero.
         /// </summary>
-        public string? Power { get; set; }
+        public List<Power> Powers { get; set; } = new List<Power>();
 
         /// <summary>
         /// Gets or sets the URL of an image representing the hero.
@@ -32,6 +32,8 @@ namespace HeroAPI.DataAccessLayer.Models
         /// Gets or sets a description or background information about the hero.
         /// </summary>
         public string? Description { get; set; }
+
+
     }
 
 }

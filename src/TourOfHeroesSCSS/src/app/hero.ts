@@ -1,7 +1,7 @@
-export interface Hero{
+export interface Hero {
     id: number;
     name: string;
-    power: string;
+    powers: string[]; 
     imageUrl: string;
     description: string;
-}
+  }

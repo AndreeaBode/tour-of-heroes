@@ -59,12 +59,10 @@ namespace HeroAPI.DataAccesLayer.Repositories
         /// </summary>
         /// <param name="hero">The updated hero entity.</param>
         public async Task UpdateHeroAsync(Hero hero)
-        {     
+        {
             try
             {
-                var existingHero = _context.
-                    Heroes.
-                    Find(hero.Id);
+                var existingHero = _context.Heroes.Include(h => h.Powers).FirstOrDefault(h => h.Id == hero.Id);
 
                 if (existingHero == null)
                 {
@@ -72,18 +70,24 @@ namespace HeroAPI.DataAccesLayer.Repositories
                 }
 
                 existingHero.Name = hero.Name;
-                existingHero.Power = hero.Power;
                 existingHero.Description = hero.Description;
                 existingHero.ImageUrl = hero.ImageUrl;
 
-                _context
-                    .SaveChanges();   
+
+                existingHero.Powers.Clear();
+                foreach (var power in hero.Powers)
+                {
+                    existingHero.Powers.Add(power);
+                }
+
+                _context.SaveChanges();
             }
             catch (Exception ex)
             {
                 throw new InvalidOperationException("Failed to update hero.", ex);
             }
         }
+
 
         /// <summary>
         /// Deletes a hero from the database asynchronously by its unique identifier.

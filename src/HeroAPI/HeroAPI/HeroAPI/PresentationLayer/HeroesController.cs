@@ -56,8 +56,20 @@ namespace HeroAPI.PresentationLayer
         [HttpPost]
         public IActionResult CreateHero(Hero hero)
         {
-            var createdHero = _heroService.CreateHero(hero);
-            return CreatedAtAction(nameof(GetHero), new { id = createdHero.Id }, createdHero);
+            try
+            {
+                if (string.IsNullOrWhiteSpace(hero.Name) || hero.Powers == null || hero.Powers.Count == 0)
+                {
+                    return BadRequest("Name and powers are required.");
+                }
+
+                var createdHero = _heroService.CreateHero(hero);
+                return CreatedAtAction(nameof(GetHero), new { id = createdHero.Id }, createdHero);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest($"Error: {ex.Message}");
+            }
         }
 
         /// <summary>

@@ -2,40 +2,24 @@
   <div class="hero_form">
     <h2>Add Hero</h2>
     <div class="input_group">
-      <i class="fa fa-user"></i>
       <input type="text" placeholder="Hero Name" class="input_text" autocomplete="off" #heroName />
     </div>
 
-    <div class="input_group">
-      <i class="fa fa-power"></i>
-      <select 
-        class="input_text2" 
-        [(ngModel)]="selectedPower" 
-        [ngClass]="{'input_text2--black': selectedPower}">
-
-        <option value="" disabled selected hidden >Select a Power</option>
-
-        <option value="Invisibility">Invisibility</option>
-        <option value="Super Speed">Super Speed</option>
-        <option value="Time Travel">Time Travel</option>
-        <option value="Mind Control">Mind Control</option>
-        <option value="Immortality">Immortality</option>
-        <option value="Animal Communication">Animal Communication</option>
-
-      </select>
-    </div>
+    <mat-select class="input_text2" [(ngModel)]="selectedPower"
+      [ngClass]="{'input_text2--black': selectedPower.length > 0}" multiple placeholder="Select a Power">
+      <mat-option *ngFor="let power of powers" [value]="power">{{ power }}</mat-option>
+    </mat-select>
 
     <div class="input_group">
-      <i class="fa fa-image"></i>
       <input type="text" placeholder="Hero Image URL" class="input_text" autocomplete="off" #heroImageUrl />
     </div>
     <div class="input_group">
-      <i class="fa fa-info-circle"></i>
+
       <input type="text" placeholder="Hero Description" class="input_text" autocomplete="off" #heroDescription />
     </div>
     <div class="button_group" id="add_hero_button">
       <button type="button" class="add-button"
-        (click)="addHero(heroName.value, selectedPower, heroImageUrl.value, heroDescription.value); heroName.value=''; selectedPower=''; heroImageUrl.value=''; heroDescription.value=''">
+        (click)="addHero(heroName.value, selectedPower, heroImageUrl.value, heroDescription.value); heroName.value=''; selectedPower=[]; heroImageUrl.value=''; heroDescription.value=''">
         Add Hero
       </button>
       <button type="button" class="button button-first" (click)="goBack()">go back</button>

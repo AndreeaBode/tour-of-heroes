@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy} from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { HeroService } from '../services/hero.service';
 import { Hero } from '../hero';
 import { Subject, takeUntil } from 'rxjs';
@@ -7,17 +7,23 @@ import { Location } from '@angular/common';
 @Component({
   selector: 'app-hero-form',
   templateUrl: './hero-form.component.html',
-  styleUrls: ['./hero-form.component.scss']
+  styleUrls: ['./hero-form.component.scss'],
 })
-export class HeroFormComponent  implements OnDestroy {
-  selectedPower: string = ''; 
-  heroPower: string = ''; 
-  
-  private destroy$ = new Subject<void>();
-  
-  constructor(private heroService: HeroService,
-    private location: Location) {}
+export class HeroFormComponent implements OnDestroy {
+  selectedPower: string[] = [];
+  heroPower: string = '';
+  powers: string[] = [
+    'Invisibility',
+    'Super Speed',
+    'Time Travel',
+    'Mind Control',
+    'Immortality',
+    'Animal Communication',
+  ];
 
+  private destroy$ = new Subject<void>();
+
+  constructor(private heroService: HeroService, private location: Location) {}
 
   ngOnDestroy(): void {
     this.destroy$.next();
@@ -27,25 +33,31 @@ export class HeroFormComponent  implements OnDestroy {
     this.location.back();
   }
 
-  addHero(name: string, 
-    power: string, 
-    imageUrl: string, 
-    description: string): void {
-      
-      name = name.trim();
-      power = power.trim();
-      imageUrl = imageUrl.trim();
-      description = description.trim();
+  addHero(
+    name: string,
+    powers: string[],
+    imageUrl: string,
+    description: string
+  ): void {
+    name = name.trim();
+    imageUrl = imageUrl.trim();
+    description = description.trim();
 
-      if (!name || !power) {
-        return;
-      }
+    if (!name || powers.length === 0) {
+      return;
+    }
 
-      this.heroService.addHero({name, power, imageUrl, description} as Hero)
+    const newHero: Hero = {
+      id: 0,
+      name: name,
+      powers: powers,
+      imageUrl: imageUrl,
+      description: description,
+    };
+
+    this.heroService
+      .addHero(newHero)
       .pipe(takeUntil(this.destroy$))
-        .subscribe(() => this.location.back())
-      }
+      .subscribe(() => this.location.back());
+  }
 }
-
-
-

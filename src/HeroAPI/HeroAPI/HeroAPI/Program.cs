@@ -19,6 +19,8 @@ builder.Services.AddScoped<IHeroService, HeroService>();
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IHeroRepository, HeroRepository>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<IPowerService, PowerService>();
+builder.Services.AddScoped<IPowerRepository, PowerRepository>();
 
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>

@@ -14,6 +14,9 @@ import { MessagesComponent } from './messages/messages.component';
 import { HeroFormComponent } from './hero-form/hero-form.component';
 import { HeroLoginComponent } from './hero-login/hero-login.component';
 import { TokenInterceptor } from './token-interceptor'; 
+import { MatInputModule } from '@angular/material/input';
+import { MatSelectModule } from '@angular/material/select';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 
 @NgModule({
@@ -22,6 +25,10 @@ import { TokenInterceptor } from './token-interceptor';
     FormsModule,
     AppRoutingModule,
     HttpClientModule,
+    BrowserAnimationsModule, 
+    MatInputModule, 
+    MatSelectModule,
+    
 
   ],
   declarations: [
