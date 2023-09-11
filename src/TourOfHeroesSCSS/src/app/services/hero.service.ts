@@ -5,6 +5,7 @@ import { Observable, of } from 'rxjs';
 import { catchError, map, tap } from 'rxjs/operators';
 
 import { Hero } from '../hero';
+import { Power } from '../power';
 import { MessageService } from './message.service';
 
 
@@ -20,6 +21,53 @@ export class HeroService {
   constructor(
     private http: HttpClient,
     private messageService: MessageService) { }
+
+
+    private powersUrl = 'https://localhost:44346/api/powers';
+
+    getPowers(): Observable<Power[]> {
+      return this.http.get<Power[]>(this.powersUrl)
+        .pipe(
+          tap(_ => this.log('fetched powers')),
+          catchError(this.handleError<Power[]>('getPowers', []))
+        );
+    }
+
+
+    savePower(power: Power): Observable<Power> {
+      return this.http.post<Power>(this.powersUrl, power)
+        .pipe(
+          tap(_ => this.log('saved power')),
+          catchError(this.handleError<Power>('savePower'))
+        );
+    }
+    updatePower(power: Power): Observable<Power> {
+      const url = `${this.powersUrl}/${power.id}`; 
+      return this.http.put<Power>(url, power)
+        .pipe(
+          tap(_ => this.log('updated power')),
+          catchError(this.handleError<Power>('updatePower'))
+        );
+    }
+
+    deletePower(powerId: number): Observable<void> {
+      const url = `${this.powersUrl}/${powerId}`;
+      return this.http.delete<void>(url)
+        .pipe(
+          tap(_ => this.log('deleted power')),
+          catchError(this.handleError<void>('deletePower'))
+        );
+    }
+
+
+    getHeroPowers(heroId: number): Observable<Power[]> {
+      const url = `${this.heroesUrl}/${heroId}/powers`; // Adjust the URL to match your API
+      return this.http.get<Power[]>(url)
+        .pipe(
+          tap(_ => this.log('fetched hero powers')),
+          catchError(this.handleError<Power[]>('getHeroPowers', []))
+        );
+    }
 
   /** GET heroes from the server */
   getHeroes(): Observable<Hero[]> {
@@ -53,6 +101,14 @@ export class HeroService {
     );
   }
 
+  /*   getHero(id: number): Observable<{ hero: Hero, powers: string[] }> {
+    const url = `${this.heroesUrl}/${id}`;
+    return this.http.get<{ hero: Hero, powers: string[] }>(url).pipe(
+      tap(_ => this.log(`fetched hero id=${id}`)),
+      catchError(this.handleError<{ hero: Hero, powers: string[] }>(`getHero id=${id}`))
+    );
+  }*/
+
   /* GET heroes whose name contains search term */
   searchHeroes(term: string): Observable<Hero[]> {
     if (!term.trim()) {
@@ -80,6 +136,7 @@ export class HeroService {
 
   /** POST: add a new hero to the server */
   addHero(hero: Hero): Observable<Hero> {
+    console.log(hero.power);
     return this.http.post<Hero>(this.heroesUrl, hero, this.httpOptions).pipe(
       tap((newHero: Hero) => this.log(`added hero w/ id=${newHero.id}`)),
       catchError(this.handleError<Hero>('addHero'))

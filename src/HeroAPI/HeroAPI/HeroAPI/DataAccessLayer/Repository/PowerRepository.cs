@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using HeroAPI.DataAccessLayer.Models;
 using Microsoft.EntityFrameworkCore;
-using HeroAPI.DataAccessLayer.Models;
 
 namespace HeroAPI.DataAccessLayer.Repository
 {
@@ -21,41 +17,21 @@ namespace HeroAPI.DataAccessLayer.Repository
             return await _context.Powers.ToListAsync();
         }
 
-        public async Task<Power> GetPowerByIdAsync(long powerId)
-        {
-            return await _context.Powers.FirstOrDefaultAsync(p => p.Id == powerId);
-        }
-
-        public async Task<Power> CreatePowerAsync(Power newPower)
-        {
-            if (newPower == null)
-            {
-                throw new ArgumentNullException(nameof(newPower));
-            }
-
-            _context.Powers.Add(newPower);
-            await _context.SaveChangesAsync();
-
-            return newPower;
-        }
-
-        public async Task UpdatePowerAsync(long powerId, Power updatedPower)
+        public async Task UpdatePowerAsync(Power updatedPower)
         {
             if (updatedPower == null)
             {
                 throw new ArgumentNullException(nameof(updatedPower));
             }
 
-            var existingPower = await _context.Powers.FirstOrDefaultAsync(p => p.Id == powerId);
+            var existingPower = await _context.Powers.FirstOrDefaultAsync(p => p.Id == updatedPower.Id);
 
             if (existingPower == null)
             {
-                throw new ArgumentException("Power not found", nameof(powerId));
+                throw new ArgumentException("Power not found", nameof(updatedPower));
             }
 
             existingPower.Name = updatedPower.Name;
-            existingPower.Description = updatedPower.Description;
-
             await _context.SaveChangesAsync();
         }
 

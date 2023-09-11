@@ -62,7 +62,9 @@ namespace HeroAPI.DataAccesLayer.Repositories
         {
             try
             {
-                var existingHero = _context.Heroes.Include(h => h.Powers).FirstOrDefault(h => h.Id == hero.Id);
+                var existingHero = _context.
+                    Heroes.
+                    Find(hero.Id);
 
                 if (existingHero == null)
                 {
@@ -70,17 +72,12 @@ namespace HeroAPI.DataAccesLayer.Repositories
                 }
 
                 existingHero.Name = hero.Name;
+                existingHero.Power = hero.Power;
                 existingHero.Description = hero.Description;
                 existingHero.ImageUrl = hero.ImageUrl;
 
-
-                existingHero.Powers.Clear();
-                foreach (var power in hero.Powers)
-                {
-                    existingHero.Powers.Add(power);
-                }
-
-                _context.SaveChanges();
+                _context
+                    .SaveChanges();
             }
             catch (Exception ex)
             {

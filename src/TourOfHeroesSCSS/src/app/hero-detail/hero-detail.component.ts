@@ -4,6 +4,7 @@ import { Location } from '@angular/common';
 import { Subscription } from 'rxjs';
 
 import { Hero } from '../hero';
+import {Power} from '../power';
 import { HeroService } from '../services/hero.service';
 
 @Component({
@@ -14,6 +15,8 @@ import { HeroService } from '../services/hero.service';
 export class HeroDetailComponent implements OnInit, OnDestroy {
   hero: Hero | undefined;
   private heroSubscription: Subscription | undefined;
+  powers: Power[] = [];
+
 
   constructor(
     private route: ActivatedRoute,
@@ -24,7 +27,6 @@ export class HeroDetailComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.getHero();
   }
-
   ngOnDestroy(): void {
     this.unsubscribe();
   }
@@ -33,6 +35,12 @@ export class HeroDetailComponent implements OnInit, OnDestroy {
     const id = parseInt(this.route.snapshot.paramMap.get('id')!, 10);
     this.heroSubscription = this.heroService.getHero(id).subscribe(hero => (this.hero = hero));
   }
+
+  getHeroPowers(): void {
+    const id = parseInt(this.route.snapshot.paramMap.get('id')!, 10);
+    this.heroService.getHeroPowers(id).subscribe(powers => (this.powers = powers)); 
+  }
+  
   goBack(): void {
     this.location.back();
   }

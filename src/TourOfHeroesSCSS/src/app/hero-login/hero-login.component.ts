@@ -3,8 +3,6 @@ import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 
 
-
-
 @Component({
   selector: 'app-hero-login',
   templateUrl: './hero-login.component.html',
@@ -16,13 +14,13 @@ export class HeroLoginComponent implements OnInit {
   email: string = '';
   password: string = '';
   confirmedPassword = '';
+  selectedRole = ' ';
 
 
   constructor(private http: HttpClient, 
     private router: Router) { }
 
   ngOnInit(): void {
- 
   }
   
 
@@ -71,7 +69,10 @@ export class HeroLoginComponent implements OnInit {
         email: this.email,
         password: this.password,
         confirmedPassword: this.confirmedPassword,
+        role: this.selectedRole
       };
+
+      console.log(this.selectedRole);
 
       this.http.post('https://localhost:44346/register', signupData).subscribe(
         (response: any) => {

@@ -18,21 +18,19 @@ namespace HeroAPI.DataAccessLayer.Models
         /// </summary>
         public DbSet<Hero> Heroes { get; set; } = null!;
 
-        public DbSet<Power> Powers { get; set; }
 
         /// <summary>
         /// Gets or sets the DbSet for User entities.
         /// </summary>
         public DbSet<User> Users { get; set; } = null!;
 
-        /*protected override void OnModelCreating(ModelBuilder modelBuilder)
+       public DbSet<Power> Powers { get; set; } = null!;
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            // Configurare relație one-to-many între Hero și Power
-            modelBuilder.Entity<Hero>()
-                .HasMany(hero => hero.Powers)
-                .WithMany(power => power.Heroes)
-                .UsingEntity(j => j.ToTable("HeroPowers"));
-        }*/
+            modelBuilder.Entity<HeroPower>()
+        .HasKey(hp => new { hp.HeroId, hp.PowerId });
+        }
     }
 
 }

@@ -6,6 +6,7 @@ using HeroAPI.DataAccessLayer.Repository;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+using Microsoft.OpenApi.Writers;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -21,6 +22,9 @@ builder.Services.AddScoped<IHeroRepository, HeroRepository>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IPowerService, PowerService>();
 builder.Services.AddScoped<IPowerRepository, PowerRepository>();
+builder.Services.AddScoped<HeroContextConfigurator>();
+
+
 
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>
@@ -60,6 +64,10 @@ if (app.Environment.IsDevelopment())
                 .AllowAnyHeader()
                 .AllowAnyMethod());
 }
+
+using var scope = app.Services.CreateScope();
+var contextConfigurator = scope.ServiceProvider.GetService<HeroContextConfigurator>();
+contextConfigurator?.SeedData();
 
 app.UseHttpsRedirection();
 

@@ -3,7 +3,7 @@ using HeroAPI.DataAccessLayer.Repository;
 
 namespace HeroAPI.BusinessLogicLayer
 {
-    public class PowerService : IPowerService
+    public class PowerService: IPowerService
     {
         private readonly IPowerRepository _powerRepository;
 
@@ -16,30 +16,14 @@ namespace HeroAPI.BusinessLogicLayer
         {
             return await _powerRepository.GetAllPowersAsync();
         }
-
-        public async Task<Power> GetPowerByIdAsync(long powerId)
-        {
-            return await _powerRepository.GetPowerByIdAsync(powerId);
-        }
-
-        public async Task<Power> CreatePowerAsync(Power newPower)
-        {
-            if (newPower == null)
-            {
-                throw new ArgumentNullException(nameof(newPower));
-            }
-
-            return await _powerRepository.CreatePowerAsync(newPower);
-        }
-
-        public async Task UpdatePowerAsync(long powerId, Power updatedPower)
+        public async Task UpdatePowerAsync( Power updatedPower)
         {
             if (updatedPower == null)
             {
                 throw new ArgumentNullException(nameof(updatedPower));
             }
 
-            await _powerRepository.UpdatePowerAsync(powerId, updatedPower);
+            await _powerRepository.UpdatePowerAsync(updatedPower);
         }
 
         public async Task DeletePowerAsync(long powerId)

@@ -1,8 +1,9 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { HeroService } from '../services/hero.service';
-import { Hero } from '../hero';
+import { Hero, HeroWithPowers } from '../hero';
 import { Subject, takeUntil } from 'rxjs';
 import { Location } from '@angular/common';
+import { Power } from '../power';
 
 @Component({
   selector: 'app-hero-form',
@@ -12,18 +13,15 @@ import { Location } from '@angular/common';
 export class HeroFormComponent implements OnDestroy {
   selectedPower: string[] = [];
   heroPower: string = '';
-  powers: string[] = [
-    'Invisibility',
-    'Super Speed',
-    'Time Travel',
-    'Mind Control',
-    'Immortality',
-    'Animal Communication',
-  ];
+  powers: Power[] = [];
 
   private destroy$ = new Subject<void>();
 
   constructor(private heroService: HeroService, private location: Location) {}
+
+  ngOnInit():void{
+    this.fetchPowers();
+  }
 
   ngOnDestroy(): void {
     this.destroy$.next();
@@ -35,7 +33,6 @@ export class HeroFormComponent implements OnDestroy {
 
   addHero(
     name: string,
-    powers: string[],
     imageUrl: string,
     description: string
   ): void {
@@ -43,21 +40,26 @@ export class HeroFormComponent implements OnDestroy {
     imageUrl = imageUrl.trim();
     description = description.trim();
 
-    if (!name || powers.length === 0) {
-      return;
-    }
-
     const newHero: Hero = {
       id: 0,
       name: name,
-      powers: powers,
+      power: this.selectedPower.join(","),
       imageUrl: imageUrl,
       description: description,
     };
+    
+//console.log(newHero);
 
+     this.heroService
+       .addHero(newHero)
+       .pipe(takeUntil(this.destroy$))
+       .subscribe(() => this.location.back());
+  }
+
+  fetchPowers(): void {
     this.heroService
-      .addHero(newHero)
+      .getPowers()
       .pipe(takeUntil(this.destroy$))
-      .subscribe(() => this.location.back());
+      .subscribe((powers) => (this.powers = powers));
   }
 }

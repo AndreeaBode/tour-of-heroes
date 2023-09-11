@@ -39,6 +39,15 @@
                 <div class="field">
                     <input type="password" placeholder="Confirm password" [(ngModel)]="confirmedPassword" required>
                 </div>
+                <div class="form-group">
+                    <select id="role" name="role" 
+                    [ngClass]="{'form-group--black': selectedRole}">
+                     [(ngModel)]="selectedRole" required>
+                        <option value="" disabled selected hidden>Select Role</option>
+                        <option value="Admin">Admin</option>
+                      <option value="User">User</option>
+                    </select>
+                  </div>
                 <div class="field btn">
                     <div class="btn-layer"></div>
                     <button (click)="onSignup()" >Sign up</button>

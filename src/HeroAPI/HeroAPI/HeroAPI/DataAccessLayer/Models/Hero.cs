@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using System.ComponentModel.DataAnnotations.Schema;
 
 
 namespace HeroAPI.DataAccessLayer.Models
@@ -21,7 +22,8 @@ namespace HeroAPI.DataAccessLayer.Models
         /// <summary>
         /// Gets or sets the power or abilities of the hero.
         /// </summary>
-        public List<Power> Powers { get; set; } = new List<Power>();
+        public string? Power { get; set; }
+
 
         /// <summary>
         /// Gets or sets the URL of an image representing the hero.
@@ -33,7 +35,7 @@ namespace HeroAPI.DataAccessLayer.Models
         /// </summary>
         public string? Description { get; set; }
 
-
+        public ICollection<HeroPower> HeroPowers { get; set; } = new List<HeroPower>();
     }
 
 }

@@ -107,3 +107,20 @@
     }
   }
 }
+.input_text2 {
+  margin-top: 20px;
+  width: 55%;
+  height: 45px;
+  padding: 12px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+  font-size: 16px;
+  background-color: #fff0f5;
+  outline: none;
+  color: gray;
+  &--black {
+    color: black;
+  }
+  
+}
