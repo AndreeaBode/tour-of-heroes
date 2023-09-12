@@ -12,7 +12,7 @@ namespace HeroAPI.DataAccessLayer.Models
         /// <summary>
         /// Gets or sets the unique identifier for the hero.
         /// </summary>
-        public long Id { get; set; }
+        public int Id { get; set; }
 
         /// <summary>
         /// Gets or sets the name of the hero.
@@ -22,7 +22,7 @@ namespace HeroAPI.DataAccessLayer.Models
         /// <summary>
         /// Gets or sets the power or abilities of the hero.
         /// </summary>
-        public string? Power { get; set; }
+        //public string? Power { get; set; }
 
 
         /// <summary>
@@ -36,6 +36,8 @@ namespace HeroAPI.DataAccessLayer.Models
         public string? Description { get; set; }
 
         public ICollection<HeroPower> HeroPowers { get; set; } = new List<HeroPower>();
+
+        //public ICollection<Power> Powers { get; set; } = new List<Power> ();
     }
 
 }

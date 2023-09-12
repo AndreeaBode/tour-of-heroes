@@ -58,7 +58,8 @@ namespace HeroAPI.BusinessLogicLayer
                 Name = name,
                 Email = model.Email,
                 Password = HashPassword(model.Password),
-                HeroId = 24
+                HeroId = 24,
+                Role = model.Role
             };
 
             await _userRepository.AddUserAsync(user);

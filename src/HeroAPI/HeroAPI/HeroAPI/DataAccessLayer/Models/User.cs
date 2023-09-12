@@ -29,6 +29,8 @@
         /// Gets or sets the optional identifier of an associated Hero, if applicable.
         /// </summary>
         public int? HeroId { get; set; }
+
+        public string Role { get; set; }
     }
 
 }

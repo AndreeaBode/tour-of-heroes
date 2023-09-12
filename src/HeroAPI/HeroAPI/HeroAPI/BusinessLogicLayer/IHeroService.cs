@@ -19,7 +19,7 @@ namespace HeroAPI.BusinessLogicLayer
         /// </summary>
         /// <param name="id">The unique identifier of the hero.</param>
         /// <returns>The hero with the specified identifier.</returns>
-        Hero GetHero(long id);
+        Hero GetHero(int id);
 
         /// <summary>
         /// Creates a new hero entity.

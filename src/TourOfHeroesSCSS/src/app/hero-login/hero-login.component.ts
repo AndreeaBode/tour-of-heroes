@@ -65,6 +65,12 @@ export class HeroLoginComponent implements OnInit {
         return;
       }
 
+      if (this.selectedRole === 'Admin') {
+        this.isAdmin = true; 
+      } else {
+        this.isAdmin = false;
+      }
+
       const signupData = {
         email: this.email,
         password: this.password,

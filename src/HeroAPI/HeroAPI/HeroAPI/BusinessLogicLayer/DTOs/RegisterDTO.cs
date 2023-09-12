@@ -23,5 +23,7 @@ namespace HeroAPI.BusinessLogicLayer.DTOs
         /// Gets or sets the confirmed password for user registration to ensure accuracy.
         /// </summary>
         public string? ConfirmedPassword { get; set; }
+
+        public string Role { get;set; }
     }
 }

@@ -29,7 +29,7 @@ namespace HeroAPI.BusinessLogicLayer
         /// </summary>
         /// <param name="id">The unique identifier of the hero.</param>
         /// <returns>The hero with the specified identifier.</returns>
-        public Hero GetHero(long id)
+        public Hero GetHero(int id)
         {
             return _repository.GetHeroById(id);
         }

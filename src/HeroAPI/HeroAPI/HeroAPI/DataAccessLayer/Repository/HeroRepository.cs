@@ -33,7 +33,7 @@ namespace HeroAPI.DataAccesLayer.Repositories
         /// </summary>
         /// <param name="id">The unique identifier of the hero.</param>
         /// <returns>The hero with the specified identifier.</returns>
-        public Hero? GetHeroById(long id)
+        public Hero? GetHeroById(int id)
         {
             return _context
                 .Heroes
@@ -72,7 +72,7 @@ namespace HeroAPI.DataAccesLayer.Repositories
                 }
 
                 existingHero.Name = hero.Name;
-                existingHero.Power = hero.Power;
+                //existingHero.Power = hero.Power;
                 existingHero.Description = hero.Description;
                 existingHero.ImageUrl = hero.ImageUrl;
 

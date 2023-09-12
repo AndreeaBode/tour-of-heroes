@@ -1,10 +1,11 @@
 <div class="back">
 
   <div class="button_group">
-    <a routerLink="/hero-form" class="add-button">
+    <a *ngIf="isAdmin" routerLink="/hero-form" class="add-button">
       Add hero
     </a>
   </div>
+  
   <h2>My Heroes</h2>
   <div class="heroes-container">
     <ul class="heroes">

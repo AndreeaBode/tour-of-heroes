@@ -24,12 +24,23 @@ namespace HeroAPI.DataAccessLayer.Models
         /// </summary>
         public DbSet<User> Users { get; set; } = null!;
 
-       public DbSet<Power> Powers { get; set; } = null!;
+        public DbSet<Power> Powers { get; set; } = null!;
 
+        // Define the many-to-many relationship between Hero and Power
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<HeroPower>()
-        .HasKey(hp => new { hp.HeroId, hp.PowerId });
+                .HasKey(hp => new { hp.HeroId, hp.PowerId });
+
+            modelBuilder.Entity<HeroPower>()
+                .HasOne(hp => hp.Hero)
+                .WithMany(h => h.HeroPowers)
+                .HasForeignKey(hp => hp.HeroId);
+
+            modelBuilder.Entity<HeroPower>()
+                .HasOne(hp => hp.Power)
+                .WithMany(p => p.HeroPowers)
+                .HasForeignKey(hp => hp.PowerId);
         }
     }
 

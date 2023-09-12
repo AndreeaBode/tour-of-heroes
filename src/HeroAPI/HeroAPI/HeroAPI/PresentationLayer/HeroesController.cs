@@ -37,7 +37,7 @@ namespace HeroAPI.PresentationLayer
         /// <param name="id">The unique identifier of the hero to retrieve.</param>
         /// <returns>An HTTP response containing the hero, if found; otherwise, a not found response.</returns>
         [HttpGet("{id}")]
-        public IActionResult GetHero(long id)
+        public IActionResult GetHero(int id)
         {
             var hero = _heroService.GetHero(id);
             if (hero == null)
@@ -56,7 +56,7 @@ namespace HeroAPI.PresentationLayer
         [HttpPost]
         public IActionResult CreateHero(Hero hero)
         {
-            Console.WriteLine(hero.Power);
+            //Console.WriteLine(hero.Power);
             var createdHero = _heroService.CreateHero(hero);
             return CreatedAtAction(nameof(GetHero), new { id = createdHero.Id }, createdHero);
         }
@@ -73,7 +73,7 @@ namespace HeroAPI.PresentationLayer
         /// </returns>
         [Authorize(Policy = "RequireLoggedIn")]
         [HttpPut("{id}")]
-        public IActionResult UpdateHero(long id, Hero hero)
+        public IActionResult UpdateHero(int id, Hero hero)
         {
             if (id != hero.Id)
             {

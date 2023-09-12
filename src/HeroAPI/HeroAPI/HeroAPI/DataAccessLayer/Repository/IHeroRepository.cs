@@ -19,7 +19,7 @@ namespace HeroAPI.DataAccesLayer.Repositories
         /// </summary>
         /// <param name="id">The unique identifier of the hero.</param>
         /// <returns>The hero with the specified identifier.</returns>
-        Hero GetHeroById(long id);
+        Hero GetHeroById(int id);
 
         /// <summary>
         /// Adds a new hero to the database asynchronously.
