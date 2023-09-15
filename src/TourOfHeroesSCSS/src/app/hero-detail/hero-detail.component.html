@@ -9,12 +9,12 @@
       <input id="hero-name" class="input_text" [(ngModel)]="hero.name" placeholder="Hero name" />
     </div>
 
-
+    <div class="input_group">
       <label for="hero-power">Hero power:</label>
-      <mat-select id="hero-power" class="input_text2" [(ngModel)]="hero.power" multiple placeholder="Hero power">
+      <mat-select id="hero-power" class="input_text2" [(ngModel)]="selectedPowers" multiple placeholder="Hero power">
         <mat-option *ngFor="let power of powers" [value]="power">{{ power }}</mat-option>
       </mat-select>
-
+    </div>
     
 
     <div class="input_group">

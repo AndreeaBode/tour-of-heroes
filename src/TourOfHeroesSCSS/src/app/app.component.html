@@ -4,6 +4,7 @@
   </div>
   <div class="navbar-right">
     <a routerLink="/dashboard" class="nav-link">Dashboard</a>
+    <a routerLink="/favorite-heroes" class="nav-link">My Heroes</a>
     <span class="nav-divider"></span>
     <a routerLink="/heroes" class="nav-link">Heroes</a>
     <ng-container *ngIf="authService.isLoggedIn(); else loggedOutTemplate">

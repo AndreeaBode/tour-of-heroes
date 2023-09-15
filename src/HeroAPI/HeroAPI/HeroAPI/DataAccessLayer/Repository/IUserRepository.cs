@@ -20,5 +20,6 @@ namespace HeroAPI.DataAccessLayer.Repository
         /// <param name="email">The email address of the user to retrieve.</param>
         /// <returns>The user with the specified email address.</returns>
         Task<User> GetUserByEmailAsync(string email);
+        //Task<User?> GetUserByIdAsync(int userId);
     }
 }

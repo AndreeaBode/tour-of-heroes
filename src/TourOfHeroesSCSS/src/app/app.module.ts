@@ -17,6 +17,8 @@ import { TokenInterceptor } from './token-interceptor';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { FavoriteHeroesComponent } from './favorite-heroes/favorite-heroes.component';
+
 
 
 @NgModule({
@@ -39,7 +41,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     MessagesComponent,
     HeroSearchComponent,
     HeroFormComponent,
-    HeroLoginComponent
+    HeroLoginComponent,
+    FavoriteHeroesComponent
   ],
   providers: [
     {

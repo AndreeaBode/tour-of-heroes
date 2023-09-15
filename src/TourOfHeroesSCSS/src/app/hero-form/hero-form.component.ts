@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { HeroService } from '../services/hero.service';
-import { Hero, HeroWithPowers } from '../hero';
+import { Hero } from '../hero';
 import { Subject, takeUntil } from 'rxjs';
 import { Location } from '@angular/common';
 import { Power } from '../power';
@@ -47,11 +47,11 @@ export class HeroFormComponent implements OnDestroy {
       imageUrl: imageUrl,
       description: description,
     };
+    console.log(this.selectedPower);
     
-//console.log(newHero);
-
+    
      this.heroService
-       .addHero(newHero)
+     .addHero(newHero)
        .pipe(takeUntil(this.destroy$))
        .subscribe(() => this.location.back());
   }

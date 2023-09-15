@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using HeroAPI.DataAccessLayer.Models;
+using HeroAPI.BusinessLogicLayer.DTOs;
 
 namespace HeroAPI.DataAccesLayer.Repositories
 {
@@ -19,7 +20,7 @@ namespace HeroAPI.DataAccesLayer.Repositories
         /// </summary>
         /// <param name="id">The unique identifier of the hero.</param>
         /// <returns>The hero with the specified identifier.</returns>
-        Hero GetHeroById(int id);
+        HeroDTO GetHeroById(int id);
 
         /// <summary>
         /// Adds a new hero to the database asynchronously.
@@ -37,6 +38,15 @@ namespace HeroAPI.DataAccesLayer.Repositories
         /// Deletes a hero from the database asynchronously by its unique identifier.
         /// </summary>
         /// <param name="id">The unique identifier of the hero to delete.</param>
-        Task DeleteHeroAsync(long id);
+        Task DeleteHeroAsync(int id);
+
+        Task AddHeroPowerAsync(HeroPower heroPower);
+
+        Task<List<HeroPower>> GetHeroPowersAsync(int heroId);
+
+        Task RemoveHeroPowerAsync(int heroId, int powerId);
+        Task<IEnumerable<Hero>> GetAllHeroesByUserIdAsync(int userId);
+
+
     }
 }

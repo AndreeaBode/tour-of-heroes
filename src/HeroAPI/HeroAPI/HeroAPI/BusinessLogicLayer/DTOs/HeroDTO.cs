@@ -1,19 +1,10 @@
-﻿using Microsoft.EntityFrameworkCore;
-using System.ComponentModel.DataAnnotations.Schema;
+﻿using HeroAPI.DataAccessLayer.Models;
 
-
-namespace HeroAPI.DataAccessLayer.Models
+namespace HeroAPI.BusinessLogicLayer.DTOs
 {
-    /// <summary>
-    /// Represents a Hero entity with attributes such as name, power, image URL, and description.
-    /// </summary>
-    public class Hero
+    public class HeroDTO
     {
-        /// <summary>
-        /// Gets or sets the unique identifier for the hero.
-        /// </summary>
         public int Id { get; set; }
-
         /// <summary>
         /// Gets or sets the name of the hero.
         /// </summary>
@@ -35,11 +26,6 @@ namespace HeroAPI.DataAccessLayer.Models
         /// </summary>
         public string? Description { get; set; }
 
-        public ICollection<HeroPower> HeroPowers { get; set; } = new List<HeroPower>();
-        public ICollection<HeroUser>? HeroUsers { get; set; } = new List<HeroUser>();
-
-        //public ICollection<Power> Powers { get; set; } = new List<Power> ();
+        public string Power { get; set; }
     }
-
 }
-

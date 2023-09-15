@@ -6,11 +6,11 @@ import { HeroService } from '../services/hero.service';
 import { AuthService } from '../auth.service';
 
 @Component({
-  selector: 'app-heroes',
-  templateUrl: './heroes.component.html',
-  styleUrls: ['./heroes.component.scss']
+  selector: 'app-favorite-heroes',
+  templateUrl: './favorite-heroes.component.html',
+  styleUrls: ['./favorite-heroes.component.scss']
 })
-export class HeroesComponent implements OnInit, OnDestroy {
+export class FavoriteHeroesComponent {
   heroes: Hero[] = [];
   hero: Hero | undefined;
   private heroesSubscription: Subscription | undefined;
@@ -33,27 +33,11 @@ export class HeroesComponent implements OnInit, OnDestroy {
   }
 
   getHeroes(): void {
-    this.heroesSubscription = this.heroService.getHeroes().subscribe(heroes => (this.heroes = heroes));
+    const userId = this.authService.userId();
+    this.heroesSubscription = this.heroService.getHeroesUser(userId).subscribe(heroes => (this.heroes = heroes));
   }
 
-  add(name: string): void {
-    name = name.trim();
-    if (!name) {
-      return;
-    }
-    this.heroesSubscription = this.heroService.addHero({ name: name } as Hero).subscribe(hero => {
-      this.heroes.push(hero);
-    });    
-  }
-
-  addHeroUser(heroId: number): void {
-    console.log("HeroId");
-    console.log(heroId);
-    const userId = this.authService.userId(); 
-    this.heroService.addHeroUser(userId, heroId).subscribe(() => {
-    });
-  }
-  
+ 
 
   showHeroDetails(hero: Hero): void {
     this.selectedHero = hero;

@@ -1,4 +1,5 @@
-﻿using HeroAPI.DataAccessLayer.Models;
+﻿using HeroAPI.BusinessLogicLayer.DTOs;
+using HeroAPI.DataAccessLayer.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace HeroAPI.DataAccessLayer.Repository
@@ -17,6 +18,15 @@ namespace HeroAPI.DataAccessLayer.Repository
             return await _context.Powers.ToListAsync();
         }
 
+        public async Task<IEnumerable<Power>> GetPowersByIdsAsync(IEnumerable<int> powerIds)
+        {
+            return await _context.Powers.Where(p => powerIds.Contains(p.Id)).ToListAsync();
+        }
+
+        public async Task<IEnumerable<Power>> GetPowersByIds(IEnumerable<int> powerIds)
+        {
+            return await _context.Powers.Where(p => powerIds.Contains(p.Id)).ToListAsync();
+        }
         public async Task UpdatePowerAsync(Power updatedPower)
         {
             if (updatedPower == null)
@@ -35,7 +45,7 @@ namespace HeroAPI.DataAccessLayer.Repository
             await _context.SaveChangesAsync();
         }
 
-        public async Task DeletePowerAsync(long powerId)
+        public async Task DeletePowerAsync(int powerId)
         {
             var powerToRemove = await _context.Powers.FirstOrDefaultAsync(p => p.Id == powerId);
 
@@ -45,5 +55,13 @@ namespace HeroAPI.DataAccessLayer.Repository
                 await _context.SaveChangesAsync();
             }
         }
+
+        public async Task<Power> GetPowerByNameAsync(string powerName)
+        {
+            var power = await _context.Powers.FirstOrDefaultAsync(p => p.Name == powerName);
+            return power;
+        }
+        
+        
     }
 }

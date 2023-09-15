@@ -1,17 +1,16 @@
-<div class="back">
-
+<div id="top-of-page" class="back">
   <div class="button_group">
-    <a *ngIf="isAdmin" routerLink="/hero-form" class="add-button">
+    <a routerLink="/hero-form" class="add-button" *ngIf="userRole === 'Admin'">
       Add hero
     </a>
   </div>
-  
-  <h2>My Heroes</h2>
+  <h2> Heroes</h2>
   <div class="heroes-container">
     <ul class="heroes">
       <li *ngFor="let hero of heroes" class="hero-item">
         <div class="hero-card">
-          <img [src]="hero.imageUrl" alt="Hero Image" class="hero-image" (click)="showHeroDetails(hero)" />
+          <img [src]="hero.imageUrl" alt="Hero Image" class="hero-image" (click)="showHeroDetails(hero);" />
+
           <div class="name-delete-container">
             <p class="hero-id">{{hero.id}}</p>
             <p class="hero-name">{{hero.name}}</p>
@@ -27,12 +26,15 @@
       <h2>{{selectedHero.name}}</h2>
       <p><strong>Hero id:</strong> {{selectedHero.id}}</p>
       <p><strong>Hero power:</strong> {{selectedHero.power}}</p>
-      <p><strong>Hero desccription:</strong> {{selectedHero.description}}</p>
+      <p><strong>Hero description:</strong> {{selectedHero.description}}</p>
     </div>
     <img [src]="selectedHero.imageUrl" alt="Selected Hero Image" class="selected-hero-image" />
     <div class="button_group">
-      <a routerLink="/detail/{{selectedHero.id}}" class="add-button">
+      <a routerLink="/detail/{{selectedHero.id}}" class="add-button" *ngIf="userRole === 'Admin'">
        Edit hero
+      </a>
+      <a (click)="addHeroUser(selectedHero.id)"class="add-button" *ngIf="userRole === 'Admin'" routerLink="/favorite-heroes">
+        Add to Favorite
       </a>
     </div>
   </div>

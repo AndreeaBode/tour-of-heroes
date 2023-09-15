@@ -122,8 +122,9 @@ namespace HeroAPI.BusinessLogicLayer
         {
             var claims = new[]
             {
-                new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
-                new Claim("Mail", user.Email)
+                new Claim("Id", user.Id.ToString()),
+                new Claim("Mail", user.Email),
+                new Claim("Role", user.Role)
             };
 
             var keyBytes = Encoding.UTF8.GetBytes(key);
@@ -132,14 +133,11 @@ namespace HeroAPI.BusinessLogicLayer
 
             var token = new JwtSecurityToken(
                 issuer: issuer,
-                audience: audience, // Set the audience here
+                audience: audience, 
                 claims: claims,
                 expires: DateTime.UtcNow.AddDays(7),
                 signingCredentials: signInCredentials
             );
-
-            //var tokenHandler = new JwtSecurityTokenHandler();
-            //var token = tokenHandler.CreateToken(tokenDescriptor);
 
             string tokenAsString = new JwtSecurityTokenHandler().WriteToken(token);
 

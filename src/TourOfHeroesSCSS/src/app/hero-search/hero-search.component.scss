@@ -9,6 +9,7 @@
     font-size: 1.5rem;
     margin-top: 2rem;
     margin-bottom: 0.5rem;
+    color:white;
   }
 
   input {
@@ -26,31 +27,33 @@
   }
 
   li {
-    margin-top:20px;
+
     align-items: center;
     margin-right: 50px;
     list-style-type: none;
 
     a {
-      margin: 10px 0.25rem;
-      margin-bottom: 200px;
-      padding: 12px 24px;
-      background: linear-gradient(#a445b2, #00BFFF);
+      margin-top: 10px; 
+      margin-bottom: 10px; 
+      padding: 10px 10px;
+      background: repeating-linear-gradient( to left,#31278a,#6d66db);
       border: none;
       border-radius: 24px;
       color: #fff;
       text-decoration: none;
+      display: inline-block;
 
       &:hover,
       &:focus {
-        background: linear-gradient(#40E0D0, #02a0d4);
+        background: linear-gradient(#836af3, #afb0f5);
         outline: none;
       }
     }
 
     ul.search-result {
-      margin-top: 0;
-      padding-left: 0;
+      
+      padding-left: 10;
     }
   }
 }
+

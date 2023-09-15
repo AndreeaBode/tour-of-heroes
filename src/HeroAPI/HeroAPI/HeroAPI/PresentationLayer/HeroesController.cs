@@ -1,11 +1,15 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System.ComponentModel.Design;
 using HeroAPI.BusinessLogicLayer;
+using HeroAPI.BusinessLogicLayer.DTOs;
 using HeroAPI.DataAccessLayer.Models;
 using Microsoft.AspNetCore.Authorization;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace HeroAPI.PresentationLayer
 {
+
+
     /// <summary>
     /// Controller responsible for handling HTTP requests related to hero entities.
     /// </summary>
@@ -14,10 +18,12 @@ namespace HeroAPI.PresentationLayer
     public class HeroesController : ControllerBase
     {
         private readonly IHeroService _heroService;
+        private readonly IPowerService _powerService;
 
-        public HeroesController(IHeroService heroService)
+        public HeroesController(IHeroService heroService, IPowerService powerService)
         {
             _heroService = heroService;
+            _powerService = powerService;
         }
 
         /// <summary>
@@ -54,11 +60,39 @@ namespace HeroAPI.PresentationLayer
         /// <returns>An HTTP response indicating success and the created hero.</returns>
         [Authorize(Policy = "RequireLoggedIn")]
         [HttpPost]
-        public IActionResult CreateHero(Hero hero)
+        public async Task<IActionResult> CreateHeroAsync(HeroDTO heroDTO)
         {
-            //Console.WriteLine(hero.Power);
+
+            var hero = new Hero
+            {
+                Name = heroDTO.Name,
+                ImageUrl = heroDTO.ImageUrl,
+                Description = heroDTO.Description,
+            };
             var createdHero = _heroService.CreateHero(hero);
-            return CreatedAtAction(nameof(GetHero), new { id = createdHero.Id }, createdHero);
+            var powersArray = heroDTO.Power.Split(new[] { "," }, StringSplitOptions.RemoveEmptyEntries);
+
+
+            Console.WriteLine(powersArray);
+            Console.WriteLine(powersArray.ToString());
+
+            foreach (var powerName in powersArray)
+            {
+                Console.WriteLine(powerName);
+                var power = await _powerService.GetPowerByNameAsync(powerName);
+                if (power != null)
+                {
+                    HeroPower? heroPower = new HeroPower
+                    {
+                        HeroId = createdHero.Id,
+                        PowerId = power.Id,
+                    };
+                    await _heroService.AddHeroPowerAsync(heroPower);
+                }
+            }
+
+            heroDTO.Id = createdHero.Id;
+            return Ok(heroDTO);
         }
 
         /// <summary>
@@ -73,21 +107,65 @@ namespace HeroAPI.PresentationLayer
         /// </returns>
         [Authorize(Policy = "RequireLoggedIn")]
         [HttpPut("{id}")]
-        public IActionResult UpdateHero(int id, Hero hero)
+        public async Task<IActionResult> UpdateHeroAsync(int id, HeroDTO updatedHeroDTO)
         {
-            if (id != hero.Id)
-            {
-                return BadRequest();
-            }
-
-            var updatedHero = _heroService.UpdateHero(hero);
-            if (updatedHero == null)
+            HeroDTO? existingHero = _heroService.GetHero(id);
+            if (existingHero == null)
             {
                 return NotFound();
             }
 
-            return Ok(updatedHero);
+            existingHero.Name = updatedHeroDTO.Name;
+            existingHero.ImageUrl = updatedHeroDTO.ImageUrl;
+            existingHero.Description = updatedHeroDTO.Description;
+
+       
+            var powersArray = updatedHeroDTO.Power.Split(new[] { "," }, StringSplitOptions.RemoveEmptyEntries);
+            var updatedPowers = new List<Power>();
+
+
+            
+            var existingPowers = await _heroService.GetHeroPowersAsync(existingHero.Id); ;
+            var ePowers = existingPowers.Select(hp => hp.Power.Name).ToList();
+
+            var toRemovePowers = ePowers.Except(powersArray).ToList();
+
+            foreach (var remainingPower in toRemovePowers)
+            {
+                var heroPow = existingPowers.Where(hp => hp.Power.Name == remainingPower).First();
+                await _heroService.RemoveHeroPowerAsync(existingHero.Id, heroPow.Id);
+            }
+
+            var newPowers = powersArray.Except(ePowers).ToList();
+            foreach (var powerName in newPowers)
+            {
+                var power = await _powerService.GetPowerByNameAsync(powerName);
+
+                if (power == null)
+                {
+                    continue;
+                }
+
+                await _heroService.AddHeroPowerAsync(new HeroPower
+                {
+                    HeroId = existingHero.Id,
+                    PowerId = power.Id
+                });
+            }
+
+            var hero = new Hero
+            {
+                Id = existingHero.Id,
+                Name = existingHero.Name,
+                Description = existingHero.Description,
+                ImageUrl = existingHero.ImageUrl,
+            };
+
+            await _heroService.UpdateHero(hero);
+
+            return Ok(existingHero);
         }
+
 
         /// <summary>
         /// Deletes a hero by its unique identifier.
@@ -99,7 +177,7 @@ namespace HeroAPI.PresentationLayer
         /// </returns>
         [Authorize(Policy = "RequireLoggedIn")]
         [HttpDelete("{id}")]
-        public IActionResult DeleteHero(long id)
+        public IActionResult DeleteHero(int id)
         {
             var result = _heroService.DeleteHero(id);
             if (!result)
@@ -110,4 +188,5 @@ namespace HeroAPI.PresentationLayer
         }
 
     }
+
 }

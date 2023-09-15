@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 
 
 @Component({
@@ -14,8 +14,11 @@ export class HeroLoginComponent implements OnInit {
   email: string = '';
   password: string = '';
   confirmedPassword = '';
-  selectedRole = ' ';
-
+  selectedRole = '';
+  emailError: boolean = false;
+  passwordError: boolean = false;
+  passwordConfirmedError: boolean = false;
+  
 
   constructor(private http: HttpClient, 
     private router: Router) { }
@@ -25,11 +28,25 @@ export class HeroLoginComponent implements OnInit {
   
 
   onLogin() {
+    this.emailError = false;
+  this.passwordError = false;
     if (this.authType === 'login') {
-      if (!this.email || !this.password) {
-        console.error('Email and password are required.');
-        return;
+
+      if(!this.email && !this.password){
+        this.passwordError = true;
+        this.emailError = true; 
       }
+
+      if (this.authType === 'login') {
+        if (!this.email) {
+          this.emailError = true;
+          return;
+        }
+    
+        if (!this.password) {
+          this.passwordError = true;
+          return;
+        }
 
       const loginData = {
         email: this.email,
@@ -41,6 +58,7 @@ export class HeroLoginComponent implements OnInit {
           if (response && response.token) {
             localStorage.setItem('jwtToken', response.token);
             console.log('Login successful', response);
+            this.router.navigateByUrl('/heroes');
           } else {
             console.error('Invalid response from server');
           }
@@ -51,34 +69,46 @@ export class HeroLoginComponent implements OnInit {
       );
     }
   }
-
+  }
 
   onSignup() {
+
     if (this.authType === 'signup') {
-      if (!this.email || !this.password || !this.confirmedPassword) {
-        console.error('Email, password, and confirmed password are required.');
-        return;
+
+      if(!this.email && !this.password){
+        this.passwordError = true;
+        this.emailError = true; 
       }
 
+      if (!this.email) {
+        this.emailError = true;
+        this.passwordError = false; 
+      } 
+  
+      if (!this.password) {
+        this.passwordError = true;
+        this.emailError = false; 
+        return;
+      }
+  
       if (this.password !== this.confirmedPassword) {
-        console.error('Password and confirmed password do not match.');
+        this.passwordConfirmedError = true;
+        this.emailError = false; 
         return;
       }
 
-      if (this.selectedRole === 'Admin') {
-        this.isAdmin = true; 
-      } else {
-        this.isAdmin = false;
-      }
-
+      
       const signupData = {
         email: this.email,
         password: this.password,
         confirmedPassword: this.confirmedPassword,
-        role: this.selectedRole
+        role: this.selectedRole,
       };
 
+      console.log("roleee")
+      console.log(signupData.role);
       console.log(this.selectedRole);
+      console.log(this.confirmedPassword);
 
       this.http.post('https://localhost:44346/register', signupData).subscribe(
         (response: any) => {
@@ -92,12 +122,11 @@ export class HeroLoginComponent implements OnInit {
           }
         },        
         (error) => {
-          console.error('Login error', error);
+          console.error('Signup error', error);
         }
       );
     }
   }
-
 
   
   onLogout() {
@@ -106,6 +135,7 @@ export class HeroLoginComponent implements OnInit {
     
   }
   setAuthType(type: 'login' | 'signup') {
+    //window.location.reload();
     this.authType = type;
   }
 }

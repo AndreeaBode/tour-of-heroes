@@ -31,6 +31,8 @@
         public int? HeroId { get; set; }
 
         public string Role { get; set; }
+
+        public ICollection<HeroUser>? HeroUsers { get; set; } = new List<HeroUser>();
     }
 
 }

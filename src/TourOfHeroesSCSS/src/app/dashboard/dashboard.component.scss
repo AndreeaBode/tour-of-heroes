@@ -1,14 +1,17 @@
 
 h2 {
   text-align: center;
+  color:white;
   font-size: 30px;
+  font-family: 'Open Sans', sans-serif;
 }
 
 .back{
-  background-image: repeating-linear-gradient( to left,#00BFFF,#a445b2);
+  background-image: repeating-linear-gradient( to left,#000000,#6d66db);
 background-size:cover;
 width: 100vw;
 height: 100vh;
+padding-top: 20px;
 }
 .heroes-menu {
   position: relative;

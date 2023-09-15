@@ -3,14 +3,17 @@
   align-items: center;
   justify-content: space-between;
   padding: 10px;
-  background: linear-gradient(#00BFFF, #a445b2);
+  background: repeating-linear-gradient( to left,#1f1d1d,#948df8);
   color: white;
-  backdrop-filter: blur(60px); 
-  -webkit-backdrop-filter: blur(60px);
-
+  backdrop-filter: blur(8px);
+  opacity: 0.9;
+  -webkit-backdrop-filter: blur(8px); 
+  
+  
   .navbar-left {
     flex: 1;
-  }
+    font-family: 'Open Sans', sans-serif;
+    }
 
   .navbar-right {
     display: flex;
@@ -50,7 +53,3 @@
   }
 }
 
-:host {
-  display: block;
-  background-color: #fff;
-}

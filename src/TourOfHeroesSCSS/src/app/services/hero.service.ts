@@ -78,6 +78,24 @@ export class HeroService {
       );
   }
 
+  getHeroesUser(userId: number): Observable<Hero[]> {
+    const url = `https://localhost:44346/api/Favorites/${userId}`;
+    return this.http.get<Hero[]>(url)
+      .pipe(
+        tap(_ => this.log('fetched heroes')),
+        catchError(this.handleError<Hero[]>('getHeroes', []))
+      );
+  }
+
+  addHeroUser(userId: number, heroId: number): Observable<void> {
+    const url =  `https://localhost:44346/api/Favorites/${userId}?heroId=${heroId}`;
+    return this.http.post<void>(url, this.httpOptions).pipe(
+      tap(() => this.log(`Added heroUser: userId=${userId}, heroId=${heroId}`)),
+      catchError(this.handleError<void>('addHeroUser'))
+    );
+  }
+
+
    /** GET hero by id. Return `undefined` when id not found */
    getHeroNo404<Data>(id: number): Observable<Hero> {
     const url = `${this.heroesUrl}/?id=${id}`;
@@ -101,6 +119,8 @@ export class HeroService {
     );
   }
 
+
+
   /*   getHero(id: number): Observable<{ hero: Hero, powers: string[] }> {
     const url = `${this.heroesUrl}/${id}`;
     return this.http.get<{ hero: Hero, powers: string[] }>(url).pipe(
@@ -112,12 +132,9 @@ export class HeroService {
   /* GET heroes whose name contains search term */
   searchHeroes(term: string): Observable<Hero[]> {
     if (!term.trim()) {
-      // Dacă termenul de căutare este gol, returnați un tablou gol de eroi.
       return of([]);
-    }
-    
+    } 
     term = term.toLowerCase(); 
-  
     return this.http.get<Hero[]>(this.heroesUrl).pipe(
       map(heroes => heroes.filter(hero => hero.name.toLowerCase().includes(term))), 
       tap(filteredHeroes => {
@@ -136,12 +153,13 @@ export class HeroService {
 
   /** POST: add a new hero to the server */
   addHero(hero: Hero): Observable<Hero> {
-    console.log(hero.power);
+    
     return this.http.post<Hero>(this.heroesUrl, hero, this.httpOptions).pipe(
       tap((newHero: Hero) => this.log(`added hero w/ id=${newHero.id}`)),
       catchError(this.handleError<Hero>('addHero'))
     );
   }
+  
 
   /** DELETE: delete the hero from the server */
   deleteHero(id: number): Observable<Hero> {

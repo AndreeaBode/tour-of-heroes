@@ -7,4 +7,8 @@
 
 
 html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+body { 
+    background-image: repeating-linear-gradient( to left,#000000,#6d66db);
+  background-size:100% 100%;;
+    margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; 
+}

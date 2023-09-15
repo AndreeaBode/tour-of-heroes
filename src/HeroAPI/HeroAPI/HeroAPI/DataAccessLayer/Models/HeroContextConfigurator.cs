@@ -11,52 +11,44 @@ namespace HeroAPI.DataAccessLayer.Models
             this.heroContext = heroContext;
         }
 
-        public void SeedData()
+        public async Task SeedData()
         {
             heroContext.Database.Migrate(); 
 
-            if (!heroContext.Heroes.Any())
-            {
-               /* heroContext.Heroes.Add(new Hero
-                {
+            if (!heroContext.Powers.Any())
+            { 
 
-                });*/
-
-                heroContext.Powers.Add(new Power
+                await heroContext.Powers.AddAsync(new Power
                 {
-                    Id = 0,
                     Name = "Invisibility"
-                }) ; 
-                
-                heroContext.Powers.Add(new Power
+                }) ;
+
+                await heroContext.Powers.AddAsync(new Power
                 {
-                    Id = 1,
                     Name = "Super Speed"
                 }) ;
-                
-                heroContext.Powers.Add(new Power
+
+                await heroContext.Powers.AddAsync(new Power
                 {
-                    Id = 2,
                     Name = "Time Travel"
                 }) ;
-                
-                heroContext.Powers.Add(new Power
+
+                await heroContext.Powers.AddAsync(new Power
                 {
-                    Id = 3,
                     Name = "Mind Control"
                 }) ;
-                
-                heroContext.Powers.Add(new Power
+
+                await heroContext.Powers.AddAsync(new Power
                 {
-                    Id = 4,
                     Name = "Immortality"
                 }) ;
-                
-                heroContext.Powers.Add(new Power
+
+                await heroContext.Powers.AddAsync(new Power
                 {
-                    Id = 5,
                     Name = "Animal Communication"
-                }) ; 
+                }) ;
+
+                await heroContext.SaveChangesAsync();
             }
         }
     }

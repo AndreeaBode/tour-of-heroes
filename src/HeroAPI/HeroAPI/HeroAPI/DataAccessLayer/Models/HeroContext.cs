@@ -26,11 +26,16 @@ namespace HeroAPI.DataAccessLayer.Models
 
         public DbSet<Power> Powers { get; set; } = null!;
 
-        // Define the many-to-many relationship between Hero and Power
+        public DbSet<HeroPower> HeroPowers { get; set; } = null!; 
+        public DbSet<HeroUser> HeroUsers { get; set; } = null!;
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<HeroPower>()
                 .HasKey(hp => new { hp.HeroId, hp.PowerId });
+
+            modelBuilder.Entity<HeroUser>()
+                .HasKey(hp => new { hp.HeroId, hp.UserId });
 
             modelBuilder.Entity<HeroPower>()
                 .HasOne(hp => hp.Hero)
@@ -41,6 +46,16 @@ namespace HeroAPI.DataAccessLayer.Models
                 .HasOne(hp => hp.Power)
                 .WithMany(p => p.HeroPowers)
                 .HasForeignKey(hp => hp.PowerId);
+
+            modelBuilder.Entity<HeroUser>()
+                .HasOne(hp => hp.Hero)
+                .WithMany(h => h.HeroUsers)
+                .HasForeignKey(hp => hp.HeroId);
+
+            modelBuilder.Entity<HeroUser>()
+                .HasOne(hp => hp.User)
+                .WithMany(p => p.HeroUsers)
+                .HasForeignKey(hp => hp.UserId);
         }
     }
 

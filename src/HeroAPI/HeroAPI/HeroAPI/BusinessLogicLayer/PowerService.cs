@@ -1,5 +1,6 @@
 ﻿using HeroAPI.DataAccessLayer.Models;
 using HeroAPI.DataAccessLayer.Repository;
+using Microsoft.EntityFrameworkCore;
 
 namespace HeroAPI.BusinessLogicLayer
 {
@@ -16,6 +17,7 @@ namespace HeroAPI.BusinessLogicLayer
         {
             return await _powerRepository.GetAllPowersAsync();
         }
+
         public async Task UpdatePowerAsync( Power updatedPower)
         {
             if (updatedPower == null)
@@ -26,9 +28,14 @@ namespace HeroAPI.BusinessLogicLayer
             await _powerRepository.UpdatePowerAsync(updatedPower);
         }
 
-        public async Task DeletePowerAsync(long powerId)
+        public async Task DeletePowerAsync(int powerId)
         {
             await _powerRepository.DeletePowerAsync(powerId);
         }
+        public async Task<Power> GetPowerByNameAsync(string powerName)
+        {
+            return await _powerRepository.GetPowerByNameAsync(powerName);
+        }
+        
     }
 }

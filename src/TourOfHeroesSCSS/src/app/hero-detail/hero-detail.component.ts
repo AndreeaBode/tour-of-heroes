@@ -15,7 +15,8 @@ import { HeroService } from '../services/hero.service';
 export class HeroDetailComponent implements OnInit, OnDestroy {
   hero: Hero | undefined;
   private heroSubscription: Subscription | undefined;
-  powers: Power[] = [];
+  powers: string[] = [];
+  selectedPowers: string[] = []
 
 
   constructor(
@@ -26,6 +27,14 @@ export class HeroDetailComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.getHero();
+    this.heroService
+      .getPowers()
+      .subscribe(powers => {
+          this.powers = [];
+          powers.forEach((power) => {
+            this.powers.push(power.name);
+          })
+      });
   }
   ngOnDestroy(): void {
     this.unsubscribe();
@@ -33,20 +42,22 @@ export class HeroDetailComponent implements OnInit, OnDestroy {
 
   getHero(): void {
     const id = parseInt(this.route.snapshot.paramMap.get('id')!, 10);
-    this.heroSubscription = this.heroService.getHero(id).subscribe(hero => (this.hero = hero));
+    this.heroSubscription = this.heroService.getHero(id).subscribe(hero => {
+      if (hero && hero.power) { 
+        this.selectedPowers = hero.power.split(', ');
+        this.hero = hero;
+      }
+    });
   }
 
-  getHeroPowers(): void {
-    const id = parseInt(this.route.snapshot.paramMap.get('id')!, 10);
-    this.heroService.getHeroPowers(id).subscribe(powers => (this.powers = powers)); 
-  }
-  
   goBack(): void {
     this.location.back();
   }
 
   save(): void {
     if (this.hero) {
+      const selectedPowersString = this.selectedPowers.join(', ');
+      this.hero.power = selectedPowersString;
       this.heroSubscription = this.heroService.updateHero(this.hero).subscribe(() => this.goBack());
     }
   }

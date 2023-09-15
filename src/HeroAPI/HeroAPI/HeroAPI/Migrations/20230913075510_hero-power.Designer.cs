@@ -4,6 +4,7 @@ using HeroAPI.DataAccessLayer.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace HeroAPI.Migrations
 {
     [DbContext(typeof(HeroContext))]
-    partial class HeroContextModelSnapshot : ModelSnapshot
+    [Migration("20230913075510_hero-power")]
+    partial class heropower
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -60,24 +63,6 @@ namespace HeroAPI.Migrations
                     b.HasIndex("PowerId");
 
                     b.ToTable("HeroPowers");
-                });
-
-            modelBuilder.Entity("HeroAPI.DataAccessLayer.Models.HeroUser", b =>
-                {
-                    b.Property<int>("HeroId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Id")
-                        .HasColumnType("int");
-
-                    b.HasKey("HeroId", "UserId");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("HeroUsers");
                 });
 
             modelBuilder.Entity("HeroAPI.DataAccessLayer.Models.Power", b =>
@@ -147,40 +132,14 @@ namespace HeroAPI.Migrations
                     b.Navigation("Power");
                 });
 
-            modelBuilder.Entity("HeroAPI.DataAccessLayer.Models.HeroUser", b =>
-                {
-                    b.HasOne("HeroAPI.DataAccessLayer.Models.Hero", "Hero")
-                        .WithMany("HeroUsers")
-                        .HasForeignKey("HeroId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("HeroAPI.DataAccessLayer.Models.User", "User")
-                        .WithMany("HeroUsers")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Hero");
-
-                    b.Navigation("User");
-                });
-
             modelBuilder.Entity("HeroAPI.DataAccessLayer.Models.Hero", b =>
                 {
                     b.Navigation("HeroPowers");
-
-                    b.Navigation("HeroUsers");
                 });
 
             modelBuilder.Entity("HeroAPI.DataAccessLayer.Models.Power", b =>
                 {
                     b.Navigation("HeroPowers");
-                });
-
-            modelBuilder.Entity("HeroAPI.DataAccessLayer.Models.User", b =>
-                {
-                    b.Navigation("HeroUsers");
                 });
 #pragma warning restore 612, 618
         }

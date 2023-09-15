@@ -1,0 +1,18 @@
+<div class="back">
+<h2>My Heroes</h2>
+<div class="heroes-container">
+  <div class="heroes">
+    <div *ngFor="let hero of heroes" class="hero-item">
+      <div class="hero-card">
+        <img [src]="hero.imageUrl" alt="Hero Image" class="hero-image" (click)="showHeroDetails(hero); scrollToTop()" />
+
+        <div class="name-delete-container">
+          <p class="hero-id">{{hero.id}}</p>
+          <p class="hero-name">{{hero.name}}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+</div>

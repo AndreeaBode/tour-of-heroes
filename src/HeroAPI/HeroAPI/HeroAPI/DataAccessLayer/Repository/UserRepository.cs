@@ -43,5 +43,9 @@ namespace HeroAPI.DataAccesLayer.Repositories
                 Users.
                 FirstOrDefaultAsync(x => x.Email == email);
         }
+       /* public async Task<User?> GetUserByIdAsync(int userId)
+        {
+            return await _context.HeroUsers.FindAsync(userId);
+        }*/
     }
 }

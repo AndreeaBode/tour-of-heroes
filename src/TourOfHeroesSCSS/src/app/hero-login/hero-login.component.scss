@@ -3,7 +3,7 @@
     justify-content: center;
     align-items: center;
     height: 89vh;
-    background: linear-gradient(#a445b2, #00BFFF);
+    background: repeating-linear-gradient( to left,#000000,#6d66db);
     font-family: 'Open Sans', sans-serif;
     color: #fff;
 
@@ -76,7 +76,7 @@
                 }
 
                 &.active {
-                    background-color: #a445b2;
+                    background-color:#6d66db;
                     color: #0d0d0e;
                 }
             }
@@ -180,7 +180,7 @@
 
                 a {
                     text-decoration: none;
-                    color: #b34f95;
+                    color: #6d66db;
                     font-weight: bold;
                     font-size: 14px;
                     transition: color 0.3s;
@@ -206,7 +206,7 @@
                     border-radius: 4px;
                     font-size: 16px;
                     color: #fff;
-                    background-color: #b34f95;
+                    background-color: #6d66db;
                     cursor: pointer;
                     transition: background-color 0.3s;
 
@@ -214,12 +214,13 @@
                         background-color: #fab5d5;
                     }
                 }
-
             }
-
-
         }
     }
-
-
 }
+.error-message {
+    color: red; 
+    font-size: 14px; 
+    margin-bottom: 20px;
+  }
+  

@@ -13,9 +13,11 @@
             <div *ngIf="authType === 'login'">
                 <div class="field">
                     <input type="text" placeholder="Email Address" [(ngModel)]="email" required>
+                    <div *ngIf="emailError" class="error-message">Email is required.</div>
                 </div>
                 <div class="field">
                     <input type="password" placeholder="Password" [(ngModel)]="password" required>
+                    <div *ngIf="passwordError" class="error-message">Password is required.</div>
                 </div>
                 <!--<div class="signup-link">
                     Not a member? <a routerLink="/signup" class="add-button">Sign up now</a>
@@ -23,7 +25,7 @@
                 <div class="pass-link"><a href="#">Forgot password?</a></div>
                 <div class="field btn">
                     <div class="btn-layer"></div>
-                    <button (click)="onLogin()" [routerLink]="['/heroes']">Login</button>
+                    <button (click)="onLogin()">Login</button>
                    
                 </div>
                 
@@ -32,22 +34,23 @@
             <div *ngIf="authType === 'signup'">
                 <div class="field">
                     <input type="text" placeholder="Email Address"  [(ngModel)]="email" required>
+                    <div *ngIf="emailError" class="error-message">Email is required.</div>
                 </div>
                 <div class="field">
                     <input type="password" placeholder="Password" [(ngModel)]="password" required>
+                    <div *ngIf="passwordError" class="error-message">Password is required.</div>
                 </div>
                 <div class="field">
                     <input type="password" placeholder="Confirm password" [(ngModel)]="confirmedPassword" required>
+                    <div *ngIf="passwordError" class="error-message">Password and confirmed password do not match.</div>
                 </div>
                 <div class="form-group">
-                    <select id="role" name="role" 
-                    [ngClass]="{'form-group--black': selectedRole}">
-                     [(ngModel)]="selectedRole" required>
-                        <option value="" disabled selected hidden>Select Role</option>
-                        <option value="Admin">Admin</option>
+                    <select id="role" name="role" [(ngModel)]="selectedRole" required>
+                      <option value="" disabled selected hidden>Select Role</option>
+                      <option value="Admin">Admin</option>
                       <option value="User">User</option>
                     </select>
-                  </div>
+                  </div>                  
                 <div class="field btn">
                     <div class="btn-layer"></div>
                     <button (click)="onSignup()" >Sign up</button>

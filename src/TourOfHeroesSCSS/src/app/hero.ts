@@ -6,10 +6,4 @@ export interface Hero {
     description: string;
   }
 
-  export interface HeroWithPowers{
-    id: number;
-    name: string;
-    powers: string[]; 
-    imageUrl: string;
-    description: string;
-  }
+ 

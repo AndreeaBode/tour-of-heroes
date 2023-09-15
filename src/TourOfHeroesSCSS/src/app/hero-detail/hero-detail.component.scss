@@ -1,11 +1,10 @@
 .hero_form_container {
-  display: flex;
+  display: grid;
   justify-content: center;
   padding: 15px;
   align-items: center;
   height: 89vh;
-  background: linear-gradient(to left, #00BFFF, #a445b2);
-  font-family: 'Open Sans', sans-serif;
+  background: repeating-linear-gradient( to left,#000000,#6d66db);
   color: #fff;
 
   .hero_form {
@@ -22,6 +21,23 @@
       align-items: center;
       margin-top: 20px;
 
+      .input_text2 {
+        margin-top: 10px;
+        width: 220px;
+        height: 45px;
+        padding: 12px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        box-sizing: border-box;
+        font-size: 16px;
+        background-color: #fff0f5;
+        outline: none;
+        color: gray;
+        &--black {
+          color: black;
+        } 
+      }
+
       i {
         color: gray;
         margin-right: 10px;
@@ -32,7 +48,6 @@
       }
 
       .input_text {
-
         padding: 12px;
         border: 1px solid #ccc;
         border-radius: 4px;
@@ -75,7 +90,7 @@
         color: #fcf8f8;
         background-color: transparent;
         resize: vertical;
-        /* Permite redimensionarea verticală a câmpului */
+        width: 500px;
 
       }
     }
@@ -107,20 +122,5 @@
     }
   }
 }
-.input_text2 {
-  margin-top: 20px;
-  width: 55%;
-  height: 45px;
-  padding: 12px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  box-sizing: border-box;
-  font-size: 16px;
-  background-color: #fff0f5;
-  outline: none;
-  color: gray;
-  &--black {
-    color: black;
-  }
-  
-}
+
+

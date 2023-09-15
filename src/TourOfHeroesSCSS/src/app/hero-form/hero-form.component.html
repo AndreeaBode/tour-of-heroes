@@ -7,7 +7,7 @@
 
     <mat-select class="input_text2" [(ngModel)]="selectedPower"
       [ngClass]="{'input_text2--black': selectedPower.length > 0}" multiple placeholder="Select a Power">
-      <mat-option *ngFor="let power of powers" [value]="power">{{ power }}</mat-option>
+      <mat-option  *ngFor="let power of powers" [value]="power.name">{{ power.name }}</mat-option>
     </mat-select>
 
     <div class="input_group">

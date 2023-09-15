@@ -22,6 +22,8 @@ builder.Services.AddScoped<IHeroRepository, HeroRepository>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IPowerService, PowerService>();
 builder.Services.AddScoped<IPowerRepository, PowerRepository>();
+builder.Services.AddScoped<IFavoriteService, FavoriteService>();
+builder.Services.AddScoped<IFavoriteRepository, FavoriteRepository>();
 builder.Services.AddScoped<HeroContextConfigurator>();
 
 

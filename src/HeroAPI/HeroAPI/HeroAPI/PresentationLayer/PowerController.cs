@@ -46,7 +46,7 @@ namespace HeroAPI.PresentationLayer
                 return NoContent();
             }
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeletePowerAsync(long id)
+        public async Task<IActionResult> DeletePowerAsync(int id)
         {
             try
             {

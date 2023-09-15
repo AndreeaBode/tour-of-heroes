@@ -7,6 +7,8 @@ namespace HeroAPI.BusinessLogicLayer
     {
         Task<IEnumerable<Power>> GetAllPowersAsync();
         Task UpdatePowerAsync(Power updatedPower);
-        Task DeletePowerAsync(long powerId);
+        Task DeletePowerAsync(int powerId);
+        Task<Power> GetPowerByNameAsync(string powerName);
+        
     }
 }

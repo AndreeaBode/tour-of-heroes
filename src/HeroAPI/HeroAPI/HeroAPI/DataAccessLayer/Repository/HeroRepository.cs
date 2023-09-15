@@ -1,7 +1,9 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore;
 using HeroAPI.DataAccessLayer.Models;
-
+using HeroAPI.BusinessLogicLayer.DTOs;
+using HeroAPI.Migrations;
+using System.Linq;
 
 namespace HeroAPI.DataAccesLayer.Repositories
 {
@@ -25,7 +27,11 @@ namespace HeroAPI.DataAccesLayer.Repositories
         {
             return _context
                 .Heroes
+                .Include(hero => hero.HeroPowers)
+                .ThenInclude(heroPower => heroPower.Power)
                 .ToList();
+
+
         }
 
         /// <summary>
@@ -33,11 +39,26 @@ namespace HeroAPI.DataAccesLayer.Repositories
         /// </summary>
         /// <param name="id">The unique identifier of the hero.</param>
         /// <returns>The hero with the specified identifier.</returns>
-        public Hero? GetHeroById(int id)
+        public HeroDTO? GetHeroById(int id)
         {
-            return _context
+            var hero = _context
                 .Heroes
+                .AsNoTracking()
+                .Include(hero => hero.HeroPowers)
+                .ThenInclude(heroPower => heroPower.Power)
                 .FirstOrDefault(hero => hero.Id == id);
+
+
+            var heroDTO = new HeroDTO
+            {
+                Id = hero.Id,
+                Name = hero.Name,
+                ImageUrl = hero.ImageUrl,
+                Description = hero.Description,
+                Power = string.Join(", ", hero.HeroPowers.Select(heroPower => heroPower.Power.Name)),
+            };
+
+            return heroDTO;
         }
 
         /// <summary>
@@ -49,6 +70,7 @@ namespace HeroAPI.DataAccesLayer.Repositories
             _context
                 .Heroes
                 .Add(hero);
+                
 
             _context
                 .SaveChanges();
@@ -58,24 +80,25 @@ namespace HeroAPI.DataAccesLayer.Repositories
         /// Updates an existing hero in the database asynchronously.
         /// </summary>
         /// <param name="hero">The updated hero entity.</param>
-        public async Task UpdateHeroAsync(Hero hero)
+        public async Task UpdateHeroAsync(HeroDTO heroDTO)
         {
             try
             {
-                var existingHero = _context.
-                    Heroes.
-                    Find(hero.Id);
+                var existingHero = _context
+                .Heroes
+                .Include(hero => hero.HeroPowers)
+                .ThenInclude(heroPower => heroPower.Power)
+                .FirstOrDefault(h => h.Id == heroDTO.Id);
 
                 if (existingHero == null)
                 {
                     return;
                 }
 
-                existingHero.Name = hero.Name;
-                //existingHero.Power = hero.Power;
-                existingHero.Description = hero.Description;
-                existingHero.ImageUrl = hero.ImageUrl;
-
+                existingHero.Name = heroDTO.Name;
+                existingHero.ImageUrl = heroDTO.ImageUrl;
+                existingHero.Description = heroDTO.Description;
+                
                 _context
                     .SaveChanges();
             }
@@ -84,17 +107,22 @@ namespace HeroAPI.DataAccesLayer.Repositories
                 throw new InvalidOperationException("Failed to update hero.", ex);
             }
         }
-
+        public async Task UpdateHeroAsync(Hero hero)
+        {
+            _context.Update(hero);
+            await _context.SaveChangesAsync();
+        }
 
         /// <summary>
         /// Deletes a hero from the database asynchronously by its unique identifier.
         /// </summary>
         /// <param name="id">The unique identifier of the hero to delete.</param>
-        public async Task DeleteHeroAsync(long id)
+        public async Task DeleteHeroAsync(int id)
         {
             var heroToRemove = _context
                 .Heroes
-                .Find(id);
+                .FirstOrDefault(h => h.Id == id);
+            Console.WriteLine(heroToRemove);
 
             if (heroToRemove != null)
             {
@@ -102,11 +130,56 @@ namespace HeroAPI.DataAccesLayer.Repositories
                     .Heroes
                     .Remove(heroToRemove);
 
-                 _context
-                    .SaveChanges();
+                _context
+                   .SaveChanges();
+            }
+        }
+        public async Task AddHeroPowerAsync(HeroPower heroPower)
+        {
+            _context.HeroPowers.Add(heroPower);
+          await  _context.SaveChangesAsync();
+        }
+        public async Task<List<HeroPower>> GetHeroPowersAsync(int heroId)
+        {
+            return await _context.HeroPowers
+                .Where(hp => hp.HeroId == heroId)
+                .Include(hp => hp.Power) 
+                .ToListAsync();
+        }
+
+        public async Task RemoveHeroPowerAsync(int heroId, int powerId)
+        {
+            var heroPowerToRemove = await _context.HeroPowers
+                .FirstOrDefaultAsync(hp => hp.HeroId == heroId && hp.PowerId == powerId);
+
+            if (heroPowerToRemove != null)
+            {
+                _context.HeroPowers.Remove(heroPowerToRemove);
+                await _context.SaveChangesAsync();
             }
         }
 
-        
+        public async Task<IEnumerable<Hero>> GetAllHeroesByUserIdAsync(int userId)
+        {
+            /*var existingHero = _context
+                .Heroes
+                .Include(hero => hero.HeroPowers)
+                .ThenInclude(heroPower => heroPower.Power)
+                .FirstOrDefault(h => h.Id == heroDTO.Id);
+*/
+
+            var heroIds = _context
+                .HeroUsers
+                .Where(user => user.UserId == userId)
+                .Select(user => user.HeroId)
+                .ToList();
+
+            var hero = _context
+                .Heroes
+                .Where(h => heroIds.Contains(h.Id))
+                .ToList();
+
+            return hero;
+        }   
     }
 }
