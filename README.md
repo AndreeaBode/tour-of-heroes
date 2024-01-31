@@ -1,2 +1,2 @@
 This project is built on the Three Layered Architecture in .Net and Angular. Within the project, there are two types of users: admin and user. The admin can perform CRUD operations on heroes, while the user has the ability to create their own list of favorite heroes. When the user is not logged in, they can view the Dashboard page, displaying a top list of heroes. Upon logging in, the user can perform a search by name.
-
+For security, I have used JWT Token, which I have saved in localStorage.
